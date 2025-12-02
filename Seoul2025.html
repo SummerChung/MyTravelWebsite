@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首爾 5 天 4 夜</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+    :root {
+        /* --- 大地色系配色 (最終版) --- */
+        --bg-color: #F2F0E9;       /* 背景：亞麻米白 */
+        --sidebar-bg: #4A403A;     /* 選單：深焙咖啡色 */
+        --card-bg: #FFFFFF;        /* 卡片：純白 */
+        --text-color: #463F3A;     /* 文字：深褐灰 */
+        --accent-color: #8D7B68;   /* 亮點色：摩卡可可色 */
+    }
+
+    /* ★★★ 全局修正：防止手機版寬度溢出 ★★★ */
+    * { box-sizing: border-box; }
+
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: "Helvetica Neue", "Noto Sans TC", Arial, sans-serif;
+        margin: 0;
+        display: flex;
+        height: 100vh;
+        overflow: hidden; /* 防止整個網頁在背景滾動 */
+    }
+
+    /* 左側選單 */
+    .sidebar {
+        width: 80px;
+        background-color: var(--sidebar-bg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        flex-shrink: 0;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+        z-index: 10; /* 確保選單在最上層 */
+    }
+
+    .menu-item {
+        width: 100%;
+        padding: 20px 0;
+        text-align: center;
+        cursor: pointer;
+        color: #B0A69E;
+        transition: 0.3s;
+        border-left: 4px solid transparent;
+    }
+
+    .menu-item i { font-size: 1.4rem; margin-bottom: 5px; display: block;}
+    .menu-item span { font-size: 0.7rem; letter-spacing: 1px;}
+
+    .menu-item.active {
+        color: #fff;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-left: 4px solid var(--accent-color);
+    }
+
+    /* 右側內容區 - 修正捲動問題 */
+    .content {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto; /* 允許垂直捲動 */
+        -webkit-overflow-scrolling: touch; /* 讓 iOS 捲動更滑順 */
+        padding-bottom: 120px; /* 增加底部緩衝空間，防止被手機工具列擋住 */
+    }
+
+    .page-section { display: none; animation: fadeIn 0.5s; }
+    .page-section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* --- 卡片設計 --- */
+    .card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 10px rgba(74, 64, 58, 0.05);
+        border: 1px solid #E6E2D6;
+    }
+
+    .card h1 {
+        font-size: 1.8rem;
+        margin: 0 0 10px 0;
+        color: #2c2520;
+        letter-spacing: 1px;
+    }
+    
+    .card h2 {
+        color: var(--accent-color);
+        font-size: 1.1rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-top: 0;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #F0EBE5;
+        padding-bottom: 10px;
+        display: inline-block;
+    }
+
+    .card p { line-height: 1.7; color: #665C54; margin-bottom: 15px; }
+    .card img { width: 100%; border-radius: 8px; margin-top: 15px; }
+
+    /* 標籤樣式 */
+    .tag-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
+    .tag {
+        background: #F5F0E6;
+        color: #5C5046;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        border: 1px solid #E0D8CC;
+    }
+    .tag i { color: var(--accent-color); margin-right: 6px; }
+
+    /* 小撇步樣式 */
+    .tip-box {
+        background: #F1F5E9;
+        border-left: 4px solid #99A88C;
+        padding: 15px;
+        border-radius: 4px;
+        color: #4F5D3E;
+        margin-top: 20px;
+    }
+    .tip-title { color: #6A7F50; font-weight: bold; margin-bottom: 5px; display: block; }
+
+    .back-home { color: #8C8279; text-decoration: none; display: block; margin-bottom: 15px; font-size: 0.9rem;}
+    .back-home:hover { color: var(--accent-color); }
+    
+    .edit-btn { position: absolute; top: 10px; right: 140px; padding: 5px 15px; background: #8C8279; color: white; border: none; border-radius: 4px; cursor: pointer; }
+
+    /* --- 行程時間軸樣式 --- */
+    .timeline-item {
+        display: flex;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+    }
+    .timeline-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .time-col {
+        width: 60px;
+        font-weight: bold;
+        color: var(--accent-color);
+        font-size: 0.9rem;
+        flex-shrink: 0;
+    }
+    .event-col { flex: 1; }
+    .event-title { font-weight: bold; color: #463F3A; margin-bottom: 5px; display: block; }
+    .event-desc { font-size: 0.85rem; color: #888; }
+    .transport-tag {
+        display: inline-block; font-size: 0.7rem; padding: 2px 6px; background: #eee; border-radius: 4px; color: #666; margin-right: 5px;
+    }
+
+    /* ★★★ 超連結專用樣式 (優化版：字變深，底線保留顏色) ★★★ */
+    .event-link {
+        color: #463F3A; /* 改成深色，跟前面的「午餐：」一樣 */
+        text-decoration: none;
+        border-bottom: 1px dotted var(--accent-color); /* 底線維持摩卡色 */
+        transition: 0.3s;
+        font-weight: bold; /* 加粗一點 */
+    }
+    .event-link:hover {
+        color: var(--accent-color); /* 滑鼠移過去時才變色 */
+        border-bottom: 1px solid var(--accent-color);
+    }
+    .event-link i {
+        color: var(--accent-color); /* 小圖示維持摩卡色 */
+        margin-left: 3px;
+    }
+
+    /* --- 航班與飯店專用樣式 --- */
+    .flight-box, .hotel-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center; 
+        border-bottom: 1px dashed #ddd;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        flex-wrap: nowrap; /* 禁止換行 */
+    }
+
+    .flight-box:last-child, .hotel-box:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .info-group { display: flex; flex-direction: column; }
+    .info-label { font-size: 0.8rem; color: #888; margin-bottom: 3px; }
+    .info-value { font-size: 1.1rem; color: #463F3A; font-weight: bold; }
+    .highlight { color: var(--accent-color); }
+    
+    /* 左側路線：TPE 台北 -> ICN 首爾 */
+    .flight-route {
+        font-size: 1.5rem;
+        color: var(--accent-color); 
+        font-weight: bold; 
+        display: flex; 
+        align-items: center; 
+        white-space: nowrap; 
+        gap: 5px;
+        flex-shrink: 0;
+    }
+
+    .city-name { font-size: 0.8rem; color: #888; font-weight: normal; margin-left: 5px; }
+
+    .flight-number-box { text-align: right; min-width: 80px; flex-shrink: 1; white-space: nowrap; }
+    .airline-name { display: block; font-size: 0.75rem; color: #999; margin-bottom: 2px; }
+    .flight-code { font-size: 1.3rem; color: var(--accent-color); font-weight: bold; }
+
+    /* ★ 手機版樣式修正 ★ */
+    @media screen and (max-width: 450px) {
+        .flight-route { font-size: 1.15rem !important; }
+        .city-name { font-size: 0.7rem !important; margin-left: 3px !important; }
+        .flight-code { font-size: 1.15rem !important; }
+        .card { padding: 15px !important; }
+
+        /* 2. 強制天氣變直式 */
+        .weather-container {
+            max-width: 280px; 
+            margin: 0 auto;
+        }
+    }
+
+    /* --- 緊急按鈕樣式 --- */
+    .sos-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 15px;
+        margin: 10px 0;
+        text-align: center;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: 0.2s;
+        max-width: 100%; 
+    }
+    .sos-btn:active { transform: scale(0.98); }
+    .sos-btn i { margin-right: 10px; font-size: 1.3rem; }
+    
+    /* 各種緊急顏色 (韓國版) */
+    .bg-police { background-color: #e74c3c; } /* 112 */
+    .bg-fire { background-color: #e67e22; }   /* 119 */
+    .bg-embassy { background-color: #3498db; } /* 駐韓代表 */
+
+</style>
+</head>
+<body>
+
+    <!-- 左側選單 -->
+    <nav class="sidebar">
+        <div class="menu-item active" onclick="showPage('day1')">
+            <i class="fas fa-plane-arrival"></i> <span>Day 1</span>
+        </div>
+        <div class="menu-item" onclick="showPage('day2')">
+            <i class="fas fa-camera"></i> <span>Day 2</span>
+        </div>
+        <div class="menu-item" onclick="showPage('day3')">
+            <i class="fas fa-shopping-bag"></i> <span>Day 3</span>
+        </div>
+        <div class="menu-item" onclick="showPage('day4')">
+            <i class="fas fa-utensils"></i> <span>Day 4</span>
+        </div>
+        <div class="menu-item" onclick="showPage('day5')">
+            <i class="fas fa-plane-departure"></i> <span>Day 5</span>
+        </div>
+        
+        <div class="menu-item" onclick="showPage('money')">
+            <i class="fas fa-calculator"></i> <span>記帳</span>
+        </div>
+        <div class="menu-item" onclick="showPage('sos')">
+            <i class="fas fa-exclamation-triangle"></i> <span>緊急</span>
+        </div>
+    </nav>
+
+    <!-- 右側內容 -->
+    <main class="content">
+        <a href="index.html" class="back-home">↩ 回行程列表</a>
+        
+        <!-- ================= Day 1 ================= -->
+        <div id="day1" class="page-section active">
+            
+            <div class="card">
+                <h1>Day 1: 01/30 (四)</h1>
+                <p>TPE ➔ ICN • 弘大</p>
+            </div>
+
+            <!-- 天氣小工具 (首爾 Seoul) -->
+            <div class="card" style="min-height: 120px;">
+                <div style="font-size: 0.9rem; color: #888; margin-bottom: 5px;">
+                    <i class="fas fa-cloud-sun"></i> 當地天氣預報
+                </div>
+                <div class="weather-container">
+                    <a class="weatherwidget-io" href="https://forecast7.com/en/37d57126d98/seoul/" data-label_1="SEOUL" data-label_2="首爾天氣" data-font="Arial" data-icons="Climacons Animated" data-mode="Forecast" data-days="3" data-theme="pure" data-accent="#8D7B68" data-textColor="#463F3A" data-highColor="#D35400" data-lowColor="#7FB3D5" data-sunColor="#F39C12" data-cloudColor="#BDC3C7" style="display: block; width: 100%; height: 100%;">SEOUL WEATHER</a>
+                </div>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');</script>
+            </div>
+
+            <!-- 去程航班資訊 -->
+            <div class="card">
+                <h2>🛫 去程航班資訊</h2>
+                <div class="flight-box">
+                    <div class="flight-route">TPE <span class="city-name">台北</span> <i class="fas fa-long-arrow-alt-right" style="color: #ccc; margin: 0 5px;"></i> ICN <span class="city-name">首爾</span></div>
+                    <div class="flight-number-box"><span class="airline-name">大韓航空</span><span class="flight-code">KE 186</span></div>
+                </div>
+                <div class="flight-box">
+                    <div class="info-group"><span class="info-label">起飛 (台北)</span><span class="info-value">12:25</span></div>
+                    <div class="info-group" style="text-align: right;"><span class="info-label">抵達 (首爾)</span><span class="info-value">15:50</span></div>
+                </div>
+                <div class="flight-box">
+                    <div class="info-group"><span class="info-label">座位</span><span class="info-value">49A, 49B</span></div>
+                    <div class="info-group" style="text-align: right;"><span class="info-label">航廈</span><span class="info-value">第一航廈</span></div>
+                </div>
+                <div class="flight-box">
+                    <div class="info-group"><span class="info-label">託運行李</span><span class="info-value">23 kg</span></div>
+                    <div class="info-group" style="text-align: right;"><span class="info-label">手提行李</span><span class="info-value">10 kg</span></div>
+                </div>
+            </div>
+
+            <!-- 住宿資訊 (完全依照沖繩範本樣式) -->
+            <div class="card">
+                <h2>🏨 住宿資訊</h2>
+                <div class="hotel-box">
+                    <div class="info-group">
+                        <span class="info-label">飯店名稱</span>
+                        <span class="info-value highlight">弘大L7飯店</span>
+                    </div>
+                </div>
+                <div class="hotel-box">
+                    <div class="info-group">
+                        <span class="info-label">141 Yanghwa-ro, Mapo-gu, Seoul (點擊導航)</span>
+                        <a href="https://maps.app.goo.gl/eZv4kLBhPbBEZpMY6" target="_blank" class="info-value" style="font-size: 0.9rem; text-decoration: underline;">
+                            弘大L7飯店... (點我導航)
+                        </a>
+                    </div>
+                </div>
+                <div class="hotel-box">
+                    <div class="info-group">
+                        <span class="info-label">Check-in</span>
+                        <span class="info-value">15:00 後</span>
+                    </div>
+                    <div class="info-group" style="text-align: right;">
+                        <span class="info-label">Check-out</span>
+                        <span class="info-value">11:00 前</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 1 詳細行程 -->
+            <div class="card">
+                <h2>🗓️ 今日行程</h2>
+                
+                <!-- 交通小撇步 -->
+                <div class="tip-box" style="margin-bottom: 20px; margin-top:0;">
+                    <span class="tip-title">💡 交通小撇步</span>
+                    推薦購買「氣候同行卡 (Climate Card)」五日券 (₩15,000)，市區地鐵公車無限搭乘。
+                </div>
+
+                <div class="timeline-item">
+                    <div class="time-col">16:40</div>
+                    <div class="event-col">
+                        <span class="event-title">入境 / 領取行李</span>
+                        <div class="event-desc">仁川機場第一航廈</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">17:00</div>
+                    <div class="event-col">
+                        <span class="event-title">搭乘機場快線 (AREX)</span>
+                        <div class="event-desc">前往弘大入口站</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">18:00</div>
+                    <div class="event-col">
+                        <span class="event-title">飯店 Check-in</span>
+                        <div class="event-desc">弘大L7飯店</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">19:00</div>
+                    <div class="event-col">
+                        <!-- ★★★ 這裡移除了 highlight 讓顏色變深 ★★★ -->
+                        <span class="event-title">
+                            晚餐：<a href="https://maps.app.goo.gl/5oA77MzYVUsqCSZE6" target="_blank" class="event-link">豬肉名家 <i class="fas fa-map-marker-alt"></i></a>
+                        </span>
+                        <div class="event-desc">弘大周邊美食</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= Day 2 ================= -->
+        <div id="day2" class="page-section">
+            <div class="card">
+                <h1>Day 2: 01/31 (五)</h1>
+                <p>北村韓屋村 • 咖啡廳巡禮</p>
+            </div>
+
+            <div class="card">
+                <h2>🗓️ 行程內容</h2>
+                
+                <div class="timeline-item">
+                    <div class="time-col">15:00</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            <a href="https://maps.app.goo.gl/uVNa8VXxkubygM5DA" target="_blank" class="event-link">午餐：山清 (Sancheong) <i class="fas fa-map-marker-alt"></i></a>
+                        </span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">17:00</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            <a href="https://maps.app.goo.gl/XfyqgWWMK4x3qNmv9" target="_blank" class="event-link">北村韓屋村 <i class="fas fa-map-marker-alt"></i></a>
+                        </span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">18:00</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            <a href="https://maps.app.goo.gl/nosjSFbiYz43R9Ai7" target="_blank" class="event-link">Artist Bakery <i class="fas fa-map-marker-alt"></i></a>
+                        </span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">19:00</div>
+                    <div class="event-col">
+                        <span class="event-title">返回飯店休息</span>
+                        <div class="event-desc">稍作整理</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">21:00</div>
+                    <div class="event-col">
+                        <!-- ★★★ 這裡移除了 highlight 讓顏色變深 ★★★ -->
+                        <span class="event-title">
+                            晚餐：<a href="https://maps.app.goo.gl/32Ji9v4dh9h17vio6" target="_blank" class="event-link">晚餐：祖傳三代馬鈴薯排骨湯 <i class="fas fa-map-marker-alt"></i></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= Day 3 ================= -->
+        <div id="day3" class="page-section">
+            <div class="card">
+                <h1>Day 3: 02/01 (六)</h1>
+                <p>明洞購物 • 樂天超市</p>
+            </div>
+
+            <div class="card">
+                <h2>🗓️ 購物行程</h2>
+                
+                <div class="timeline-item">
+                    <div class="time-col">15:30</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            午餐：<a href="https://maps.app.goo.gl/bkBAgwpV5am6coEy8" target="_blank" class="event-link">美進 Mijin 蕎麥麵 <i class="fas fa-map-marker-alt"></i></a>
+                        </span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">17:30</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            <a href="https://maps.app.goo.gl/Z2zv8H3auxVjGYTK8" target="_blank" class="event-link">樂天免稅店 <i class="fas fa-map-marker-alt"></i></a>
+                        </span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">18:00</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            <a href="https://maps.app.goo.gl/Lp85TSV2GBKEaLNz5" target="_blank" class="event-link">樂天超市 (Lotte Mart) <i class="fas fa-map-marker-alt"></i></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= Day 4 ================= -->
+        <div id="day4" class="page-section">
+            <div class="card">
+                <h1>Day 4: 02/02 (日)</h1>
+                <p>延南洞 • 明洞 • 豬肉湯飯</p>
+            </div>
+
+            <div class="card">
+                <h2>🗓️ 美食與逛街</h2>
+                <div class="timeline-item">
+                    <div class="time-col">12:30</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            午餐：<a href="https://maps.app.goo.gl/wG17dv3EJm4W7m8v8" target="_blank" class="event-link">風川鰻魚 延南店 <i class="fas fa-map-marker-alt"></i></a>
+                        </span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">14:30</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            <a href="https://maps.app.goo.gl/AsDBGLesQEyLNFmeA" target="_blank" class="event-link">明洞逛街 <i class="fas fa-map-marker-alt"></i></a>
+                        </span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">18:30</div>
+                    <div class="event-col">
+                        <!-- ★★★ 這裡移除了 highlight 讓顏色變深 ★★★ -->
+                        <span class="event-title">
+                            晚餐：<a href="https://maps.app.goo.gl/W2FQem2zce3b4Ufd7" target="_blank" class="event-link">豚壽百豬肉湯飯 <i class="fas fa-map-marker-alt"></i></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= Day 5 ================= -->
+        <div id="day5" class="page-section">
+            <div class="card">
+                <h1>Day 5: 02/03 (一)</h1>
+                <p>ICN ➔ TPE • 回家囉</p>
+            </div>
+
+            <!-- 回程航班資訊 (置頂) -->
+            <div class="card">
+                <h2>🛫 回程航班資訊</h2>
+                <div class="flight-box">
+                    <div class="flight-route">ICN <span class="city-name">首爾</span> <i class="fas fa-long-arrow-alt-right" style="color: #ccc; margin: 0 5px;"></i> TPE <span class="city-name">台北</span></div>
+                    <div class="flight-number-box"><span class="airline-name">大韓航空</span><span class="flight-code">KE 187</span></div>
+                </div>
+                <div class="flight-box">
+                    <div class="info-group"><span class="info-label">起飛 (首爾)</span><span class="info-value">16:15</span></div>
+                    <div class="info-group" style="text-align: right;"><span class="info-label">抵達 (台北)</span><span class="info-value">18:10</span></div>
+                </div>
+                <div class="flight-box">
+                    <div class="info-group"><span class="info-label">座位</span><span class="info-value">39A, 39B</span></div>
+                    <div class="info-group" style="text-align: right;"><span class="info-label">航廈</span><span class="info-value">第二航廈</span></div>
+                </div>
+                <div class="flight-box">
+                    <div class="info-group"><span class="info-label">託運行李</span><span class="info-value">23 kg</span></div>
+                    <div class="info-group" style="text-align: right;"><span class="info-label">手提行李</span><span class="info-value">10 kg</span></div>
+                </div>
+            </div>
+
+            <!-- Day 5 最後行程 -->
+            <div class="card">
+                <h2>🗓️ 最後行程</h2>
+                <div class="timeline-item">
+                    <div class="time-col">11:00</div>
+                    <div class="event-col">
+                        <span class="event-title">退房 / 寄放行李</span>
+                        <div class="event-desc">L7 弘大</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">11:10</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            <a href="https://maps.app.goo.gl/pBfMCfamSSM9GUr26" target="_blank" class="event-link">Mega Coffee <i class="fas fa-map-marker-alt"></i></a>
+                        </span>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">12:00</div>
+                    <div class="event-col">
+                        <span class="event-title">搭乘機場快線</span>
+                        <div class="event-desc">前往仁川機場</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 記帳與緊急頁面 -->
+        <div id="money" class="page-section">
+            <div class="card">
+                <h1>💰 簡易匯率換算</h1>
+                <p>輸入韓幣 (KRW)，換算台幣 (約 1:40)</p>
+                <div class="result-box" id="twdResult" style="background: #333; color: #0f0; padding: 15px; font-family: monospace; font-size: 1.5rem; text-align: right; border-radius: 5px; margin-bottom: 10px;">NT$ 0</div>
+                <input type="number" class="calc-input" placeholder="輸入韓幣金額" oninput="convertCurrency(this.value)" style="width: 100%; padding: 10px; font-size: 1.2rem; margin-bottom: 10px; box-sizing: border-box;">
+            </div>
+        </div>
+
+        <!-- 緊急求助頁面 (韓國版) -->
+        <div id="sos" class="page-section">
+            <div class="card">
+                <h1>🆘 緊急求助</h1>
+                <p>遇到緊急狀況請保持冷靜。</p>
+                
+                <a href="tel:112" class="sos-btn bg-police"><i class="fas fa-phone-alt"></i> 112 韓國警察局</a>
+                <a href="tel:119" class="sos-btn bg-fire"><i class="fas fa-ambulance"></i> 119 韓國救護/消防</a>
+                
+                <p style="margin-top: 20px; font-weight: bold; border-top: 1px solid #eee; padding-top: 15px; color:#463F3A;">🏥 協助 / 駐外單位</p>
+                
+                <!-- 駐韓代表處急難救助 -->
+                <a href="tel:+821090802761" class="sos-btn bg-embassy">
+                    <i class="fas fa-passport"></i> 台灣駐韓代表處
+                    <div style="font-size: 0.75rem; font-weight: normal; margin-top: 3px; display: block; width: 100%;">急難救助專線 (24H)</div>
+                </a>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+
+        function convertCurrency(krw) {
+            // 匯率設定：1 台幣 = 40 韓幣 (所以 1 韓幣 = 0.025 台幣)
+            const rate = 0.025; 
+            const twd = Math.round(krw * rate);
+            document.getElementById('twdResult').innerText = "NT$ " + twd;
+        }
+    </script>
+
+</body>
+</html>
