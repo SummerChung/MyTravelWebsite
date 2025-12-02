@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的旅遊日誌</title>
+    <!-- 引入字型與圖示庫 (讓質感更好) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* --- 大地色系配色 (與內頁一致) --- */
+            --bg-color: #F2F0E9;       /* 背景：亞麻米白 */
+            --card-bg: #FFFFFF;        /* 卡片：純白 */
+            --text-color: #463F3A;     /* 文字：深褐灰 */
+            --sub-text: #888888;       /* 次要文字：灰色 */
+            --accent-color: #8D7B68;   /* 亮點色：摩卡可可色 */
+            --border-color: #E6E2D6;   /* 邊框：淺米色 */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: "Helvetica Neue", "Noto Sans TC", Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px; /* 增加一點上下留白 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 { 
+            margin-bottom: 30px; 
+            font-weight: bold;
+            color: var(--text-color);
+            letter-spacing: 1px;
+        }
+
+        .trip-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px; /* 更圓潤一點 */
+            padding: 25px;
+            width: 100%;
+            max-width: 400px; /* 卡片最大寬度 */
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: block;
+            box-shadow: 0 4px 10px rgba(74, 64, 58, 0.05); /* 柔和的暖色陰影 */
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 左側裝飾線 (讓卡片更有質感) */
+        .trip-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background-color: var(--accent-color);
+            opacity: 0.8;
+        }
+
+        .trip-card:hover {
+            transform: translateY(-5px); /* 輕微浮起 */
+            box-shadow: 0 8px 20px rgba(74, 64, 58, 0.1);
+        }
+
+        .trip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .trip-date { 
+            color: var(--accent-color); /* 日期用摩卡色強調 */
+            font-size: 0.9em; 
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .trip-status {
+            font-size: 0.8em;
+            padding: 4px 8px;
+            border-radius: 10px;
+            background-color: #F1F5E9; /* 淡綠色背景 */
+            color: #6A7F50; /* 橄欖綠文字 */
+        }
+
+        .trip-title { 
+            font-size: 1.4em; 
+            font-weight: bold; 
+            margin-bottom: 8px; 
+            color: #2c2520;
+        }
+
+        .trip-info { 
+            color: var(--sub-text); 
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+        }
+        
+        .trip-info i {
+            margin-right: 6px;
+            color: #ccc;
+        }
+
+        .arrow { 
+            float: right; 
+            font-size: 1.2em; 
+            color: var(--border-color);
+            transition: 0.2s;
+        }
+        
+        .trip-card:hover .arrow {
+            color: var(--accent-color); /* 滑鼠移過去箭頭變色 */
+            transform: translateX(5px);
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>✈️ Travel Diary</h1>
+
+    <!-- 1. 沖繩 -->
+    <a href="Okinawa2025.html" class="trip-card">
+        <div class="trip-header">
+            <div class="trip-date">2025/12/25 - 12/28</div>
+            <!-- 可以依據日期顯示狀態，例如：規劃中、即將出發 -->
+            <div class="trip-status">規劃中</div>
+        </div>
+        <div class="trip-title">沖繩 4 天 3 夜 <span class="arrow"><i class="fas fa-chevron-right"></i></span></div>
+        <div class="trip-info"><i class="fas fa-map-marker-alt"></i> 沖繩 • 美麗海 • 聖誕節</div>
+    </a>
+
+    <!-- 2. 香港 -->
+    <a href="HongKong2025.html" class="trip-card">
+        <div class="trip-header">
+            <div class="trip-date">2025/06/13 - 06/15</div>
+            <div class="trip-status">已預訂</div>
+        </div>
+        <div class="trip-title">香港 3 天 2 夜 <span class="arrow"><i class="fas fa-chevron-right"></i></span></div>
+        <div class="trip-info"><i class="fas fa-map-marker-alt"></i> 香港 • 夜景 • 生日</div>
+    </a>
+
+    <!-- 3. 首爾 -->
+    <a href="Seoul2025.html" class="trip-card">
+        <div class="trip-header">
+            <div class="trip-date">2025/01/30 - 02/03</div>
+            <div class="trip-status" style="background-color: #eee; color: #999;">已結束</div>
+        </div>
+        <div class="trip-title">首爾 5 天 4 夜 <span class="arrow"><i class="fas fa-chevron-right"></i></span></div>
+        <div class="trip-info"><i class="fas fa-map-marker-alt"></i> 首爾 • 週年 • 雪景</div>
+    </a>
+
+</body>
+</html>
