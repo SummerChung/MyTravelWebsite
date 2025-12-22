@@ -157,7 +157,7 @@
     .bg-jnto { background-color: #3498db; }
     .bg-amda { background-color: #27ae60; }
 
-/* ========================================= */
+    /* ========================================= */
     /* --- 購物清單專用樣式 (Shopping List) --- */
     /* ========================================= */
 
@@ -228,6 +228,17 @@
     .shop-item.bought .shop-name {
         text-decoration: line-through;
     }
+    
+    /* 水族館 Tips 樣式 */
+    .tip-section-header {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: var(--accent-color);
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+        margin-top: 20px;
+        margin-bottom: 15px;
+    }
 </style>
 </head>
 <body>
@@ -247,7 +258,11 @@
         <div class="menu-item" onclick="showPage('day4')">
             <i class="fas fa-plane-departure"></i> <span>Day 4</span>
         </div>
-        <!-- 新增：購物清單按鈕 -->
+        <!-- 水族館 Tips 按鈕 -->
+        <div class="menu-item" onclick="showPage('aquarium-tips')">
+            <i class="fas fa-fish"></i> <span>水族館</span>
+        </div>
+        <!-- 購物清單按鈕 -->
         <div class="menu-item" onclick="showPage('shopping')">
             <i class="fas fa-shopping-cart"></i> <span>購物</span>
         </div>
@@ -517,7 +532,7 @@
                         <span class="event-title">
                             購物：<a href="https://maps.app.goo.gl/YwXU44HuKz6iWBB76" target="_blank" class="event-link">KOJIMA × BicCamera <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc"><span class="transport-tag">漁師食堂 → KOJIMA（步行 25–30 分／Uber 約 ¥1,000）</span></div>
+                        <div class="event-desc"><span class="transport-tag">Uber/計程車</span></div>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -595,52 +610,32 @@
                         <span class="event-title">
                             購物：<a href="https://maps.app.goo.gl/z8tWkJHLTfgpuXPr9" target="_blank" class="event-link">安木屋 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc">文具店：LIHIT LAB myfa娃包</div>
+                        <div class="event-desc">文具店</div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="time-col">10:45</div>
                     <div class="event-col">
                         <span class="event-title">
-                            購物：<a href="https://maps.app.goo.gl/cQNQQ3G44xQjbRiX6" target="_blank" class="event-link">夕凪 1號店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                        <div class="event-desc">辣粉、辣油</div>
-                    </div>
-                    </div>
-                <div class="timeline-item">
-                    <div class="time-col">11:00</div>
-                    <div class="event-col">
-                        <span class="event-title">
                             購物：<a href="https://maps.app.goo.gl/wa7sFcuQn9miQP236" target="_blank" class="event-link">喜島商店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
                         <div class="event-desc">牧志公設市場周邊 (特色伴手禮)</div>
                     </div>
-                    </div>
-                <div class="timeline-item">
-                    <div class="time-col">11:15</div>
-                    <div class="event-col">
-                        <span class="event-title">
-                            點心：<a href="https://maps.app.goo.gl/FcGHud96EixyV3dg7" target="_blank" class="event-link">Mochi-no-mise Yamaya <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                        <div class="event-desc">麻糬</div>
-                    </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="time-col">11:30</div>
+                    <div class="time-col">11:00</div>
                     <div class="event-col">
                         <span class="event-title">
-                            逛街：<a href="https://maps.app.goo.gl/vMuemaiX5ZCEPZUG6" target="_blank" class="event-link">淳久堂書店那霸店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            參拜：<a href="https://maps.app.goo.gl/yGcGPDZqRgSj3V1v9" target="_blank" class="event-link">波上宮 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc">扭蛋機 B1</div>
+                        <div class="event-desc">搭乘計程車前往</div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="time-col">12:00</div>
                     <div class="event-col">
-                        <span class="event-title">
-                            午餐：<a href="https://maps.app.goo.gl/F54cBHrV5LDuiWH99" target="_blank" class="event-link">LUCKY MAXIMUM <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                        <div class="event-desc">義大利麵</div>
+                        <span class="event-title">午餐：Tonton Jacky Pork</span>
+                        <div class="event-desc">炸豬排飯</div>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -659,6 +654,126 @@
                 </div>
             </div>
         </div>
+        
+        <!-- ================= 水族館 Tips 頁面 (新增) ================= -->
+        <div id="aquarium-tips" class="page-section">
+            <div class="card">
+                <h1>🐋 美麗海水族館攻略</h1>
+                <p>交通時刻表 & 參觀路線懶人包</p>
+            </div>
+
+            <!-- 1. 交通區塊 -->
+            <div class="card">
+                <h2>🚌 交通：117 號高速巴士 - 那霸 ⇆ 水族館 (小抄版)</h2>
+                <div class="tip-box" style="margin-top: 0; margin-bottom: 15px;">
+                    <span class="tip-title">💡 小叮嚀</span>
+                    1. 認明車頭： 認準 [117] 標誌，111 號通常不到水族館。<br>
+                    2. 不需預約： 自由席先到先坐，客滿需等下一班。<br>
+                    3. 現金為王： 大多無法使用 Suica，請務必備妥現金。<br>
+                </div>
+                
+                <h3 style="font-size:1rem; color:#463F3A; margin-bottom:10px;">【去程：出發資訊】</h3>
+                <p style="font-size:0.9rem; line-height:1.6; color:#666;">
+                    <b>上車地點：</b> 那霸巴士總站 (Naha Bus Terminal) 11 號月台 (旭橋站旁)<br>
+                    <b>車程時間：</b> 約 2 小時 15 分鐘<br>
+                    <b>建議班次：</b><br>
+                    • 08:36 出發 → 約 11:00 抵達<br>
+                    • 09:31 出發 → 約 11:50 抵達<br>
+                    • 10:25 出發 → 約 12:18 抵達<br>
+                    <span style="font-size:0.8rem; color:#888;">(請提早 15 分鐘現場排隊)</span><br>
+                    <b>下車地點：</b> 記念公園前（美ら海水族館）
+                </p>
+                
+                <hr style="border: 0; border-top: 1px dashed #ddd; margin: 15px 0;">
+
+                <h3 style="font-size:1rem; color:#463F3A; margin-bottom:10px;">【回程：推薦班次】</h3>
+                <p style="font-size:0.9rem; line-height:1.6; color:#666;">
+                    <b>上車地點：</b> 記念公園前 (去程下車處馬路對面)<br>
+                    <b>推薦班次 (往那霸)：</b><br>
+                    • 16:04 出發 → 約 18:40 抵達旭橋<br>
+                    • 17:09 出發 → 約 19:40 抵達旭橋<br>
+                    • 18:04 出發 → 約 20:30 抵達旭橋<br>
+                    <b>末班車：</b> 約 19:00 前後 <span style="color:#e74c3c;">(務必現場確認)</span><br>
+                    <b>下車地點：</b> 那霸巴士總站 或 縣廳北口
+                </p>
+
+                <div class="tip-box" style="margin-top: 15px;">
+                    <span class="tip-title">💡 小叮嚀</span>
+                    1. 若搭 16:04 班次，建議 15:50 就到站牌等候。<br>
+                    2. 巴士進入那霸市區後會停靠多個站點（如：縣廳北口、旭橋），如果您住國際通附近，也可以考慮在「縣廳北口」下車。<br>
+                </div>
+
+                <hr style="border: 0; border-top: 1px dashed #ddd; margin: 15px 0;">
+
+                <h3 style="font-size:1rem; color:#463F3A; margin-bottom:10px;">【購票與車資】</h3>
+                <ul style="font-size:0.9rem; line-height:1.6; color:#666; padding-left:20px;">
+                    <li><b>來回票 (推薦)：</b>在巴士總站 1 樓櫃檯買「117 號專用來回票」，約 ¥3,300 (僅限現金)。</li>
+                    <li><b>單程票：</b>上車投現 ¥2,770。（上車抽券，下車看螢幕投錢）</li>
+                    <li><b>使用方式：</b>去程撕一聯給司機，回程給另一聯 (上車都要抽整理券)。</li>
+                    <li><b>注意：</b>大多無法使用 Suica。</li>
+                </ul>
+            </div>
+
+            <!-- 2. 參觀建議區塊 -->
+            <div class="card">
+                <h2>🐠 參觀建議 (16:00 離開)</h2>
+                
+                <div class="timeline-item">
+                    <div class="time-col">10:30    11:30</div>
+                    <div class="event-col">
+                        <span class="event-title">海豚秀 (館外 - 海豚劇場)</span>
+                        <div class="event-desc">位於館外，離公車站較近，建議先看。</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">13:00</div>
+                    <div class="event-col">
+                        <span class="event-title">黑潮之海 (館內 - 3 樓「熱帶魚之海」水槽)</span>
+                        <div class="event-desc">看熱帶魚或大水槽前拍照 (人潮多)。</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">15:00</div>
+                    <div class="event-col">
+                        <span class="event-title highlight" style="color:#e74c3c;">必看：鯨鯊餵食秀</span>
+                        <div class="event-desc">黑潮之海大水槽前。鯨鯊垂直進食震撼畫面！</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">15:20</div>
+                    <div class="event-col">
+                        <span class="event-title">逛紀念品店</span>
+                        <div class="event-desc">快速採買。</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">15:50</div>
+                    <div class="event-col">
+                        <span class="event-title">前往公車站</span>
+                        <div class="event-desc">準備搭乘 16:04 回程巴士。</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 黑潮之海介紹 -->
+            <div class="card">
+                <h2>🦈 關於「黑潮之海」</h2>
+                <p style="font-size:0.9rem; line-height:1.6; color:#666;">
+                    <b>位置：</b>水族館 2 樓 (入口在 4 樓，搭手扶梯往下逛)。<br>
+                    <b>最佳觀賞點：</b>
+                </p>
+                <ul style="font-size:0.9rem; line-height:1.6; color:#666; padding-left:20px;">
+                    <li><b>大水槽正前方：</b>近距離感受震撼感。</li>
+                    <li><b>海洋觀賞室：</b>位於水槽旁，可仰望鯨鯊。</li>
+                    <li><b>Ocean Blue 咖啡廳：</b>水槽左側，可坐窗邊觀賞 (需排隊)。</li>
+                </ul>
+                <div class="tip-box" style="margin-top: 15px;">
+                    <span class="tip-title">⏰ 餵食秀時間</span>
+                    15:00 (最推薦)、17:00。<br>建議提早 10-15 分鐘佔位。
+                </div>
+            </div>
+        </div>
+
 <!-- ================= 購物清單頁面 ================= -->
         <div id="shopping" class="page-section">
             <div class="card">
