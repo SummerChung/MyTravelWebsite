@@ -30,7 +30,7 @@
 
     /* 左側選單 - 改為固定定位 (Fixed) */
     .sidebar {
-        width: 80px;
+        width: 100px;
         background-color: var(--sidebar-bg);
         display: flex;
         flex-direction: column;
@@ -239,6 +239,62 @@
         margin-top: 20px;
         margin-bottom: 15px;
     }
+
+    /* ========================================= */
+    /* --- 購物分類與導航按鈕 (新增) --- */
+    /* ========================================= */
+
+    /* 分類標題 */
+    .shop-category-title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #fff;
+        background-color: var(--accent-color); /* 使用摩卡色背景 */
+        padding: 8px 15px;
+        border-radius: 8px;
+        margin-top: 25px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        letter-spacing: 1px;
+    }
+    .shop-category-title i { margin-right: 8px; }
+
+    /* 頂部快速跳轉按鈕容器 */
+    .shop-nav {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;       /* 允許橫向滑動 */
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* 隱藏捲軸 */
+    }
+    .shop-nav::-webkit-scrollbar { display: none; }
+
+    /* 跳轉按鈕 (美化版：摩卡色外框) */
+    .shop-nav-btn {
+        background-color: #FFFFFF;
+        border: 1px solid var(--accent-color);
+        border-radius: 30px;            /* 圓角膠囊狀 */
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        color: var(--accent-color);     /* 文字摩卡色 */
+        text-decoration: none;
+        transition: 0.2s;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    .shop-nav-btn i { margin-right: 5px; }
+
+    /* 按鈕點擊特效 */
+    .shop-nav-btn:active, .shop-nav-btn:hover {
+        background-color: var(--accent-color); /* 變摩卡色底 */
+        color: #ffffff;                        /* 變白字 */
+    }
 </style>
 </head>
 <body>
@@ -267,7 +323,7 @@
             <i class="fas fa-shopping-cart"></i> <span>購物</span>
         </div>
         <div class="menu-item" onclick="showPage('money')">
-            <i class="fas fa-calculator"></i> <span>記帳</span>
+            <i class="fas fa-calculator"></i> <span>匯率</span>
         </div>
         <div class="menu-item" onclick="showPage('sos')">
             <i class="fas fa-exclamation-triangle"></i> <span>緊急</span>
@@ -438,7 +494,7 @@
                         <span class="event-title">
                             <a href="https://maps.app.goo.gl/1Rt3Ma1ZoYtUb6WH9" target="_blank" class="event-link">購票 (那霸巴士總站) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc">旭橋站旁，購買 117 號高速巴士票</div>
+                        <div class="event-desc">旭橋站旁，購買 117 號高速巴士來回票</div>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -473,8 +529,10 @@
                 <div class="timeline-item">
                     <div class="time-col">19:45</div>
                     <div class="event-col">
-                        <span class="event-title">晚餐：Oniku no Isshin</span>
-                        <div class="event-desc">縣廳前站周邊</div>
+                        <span class="event-title">
+                            晚餐：<a href="https://maps.app.goo.gl/FKUq9D6Pi13fSqPN9" target="_blank" class="event-link">Toritama Izumizaki <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            </span>
+                        <div class="event-desc">旭橋站 / 雞蛋料理</div>
                     </div>
                 </div>
             </div>
@@ -532,7 +590,7 @@
                         <span class="event-title">
                             購物：<a href="https://maps.app.goo.gl/YwXU44HuKz6iWBB76" target="_blank" class="event-link">KOJIMA × BicCamera <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc"><span class="transport-tag">Uber/計程車</span></div>
+                        <div class="event-desc"><span class="transport-tag">漁師食堂 → KOJIMA（步行 25–30 分／Uber 約 ¥1,000）</span></div>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -610,32 +668,52 @@
                         <span class="event-title">
                             購物：<a href="https://maps.app.goo.gl/z8tWkJHLTfgpuXPr9" target="_blank" class="event-link">安木屋 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc">文具店</div>
+                        <div class="event-desc">文具店：LIHIT LAB myfa娃包</div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="time-col">10:45</div>
                     <div class="event-col">
                         <span class="event-title">
-                            購物：<a href="https://maps.app.goo.gl/wa7sFcuQn9miQP236" target="_blank" class="event-link">喜島商店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            購物：<a href="https://maps.app.goo.gl/cQNQQ3G44xQjbRiX6" target="_blank" class="event-link">夕凪 1號店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc">牧志公設市場周邊 (特色伴手禮)</div>
+                        <div class="event-desc">辣粉、辣油</div>
                     </div>
-                </div>
+                    </div>
                 <div class="timeline-item">
                     <div class="time-col">11:00</div>
                     <div class="event-col">
                         <span class="event-title">
-                            參拜：<a href="https://maps.app.goo.gl/yGcGPDZqRgSj3V1v9" target="_blank" class="event-link">波上宮 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            購物：<a href="https://maps.app.goo.gl/wa7sFcuQn9miQP236" target="_blank" class="event-link">喜島商店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc">搭乘計程車前往</div>
+                        <div class="event-desc">牧志公設市場周邊 (特色伴手禮)</div>
+                    </div>
+                    </div>
+                <div class="timeline-item">
+                    <div class="time-col">11:15</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            點心：<a href="https://maps.app.goo.gl/FcGHud96EixyV3dg7" target="_blank" class="event-link">Mochi-no-mise Yamaya <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            </span>
+                        <div class="event-desc">麻糬</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">11:30</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            逛街：<a href="https://maps.app.goo.gl/vMuemaiX5ZCEPZUG6" target="_blank" class="event-link">淳久堂書店那霸店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            </span>
+                        <div class="event-desc">扭蛋機 B1</div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="time-col">12:00</div>
                     <div class="event-col">
-                        <span class="event-title">午餐：Tonton Jacky Pork</span>
-                        <div class="event-desc">炸豬排飯</div>
+                        <span class="event-title">
+                            午餐：<a href="https://maps.app.goo.gl/F54cBHrV5LDuiWH99" target="_blank" class="event-link">LUCKY MAXIMUM <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            </span>
+                        <div class="event-desc">義大利麵</div>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -669,7 +747,7 @@
                     <span class="tip-title">💡 小叮嚀</span>
                     1. 認明車頭： 認準 [117] 標誌，111 號通常不到水族館。<br>
                     2. 不需預約： 自由席先到先坐，客滿需等下一班。<br>
-                    3. 現金為王： 大多無法使用 Suica，請務必備妥現金。<br>
+                    3. 現金為主： 大多無法使用 Suica，請務必備妥現金。<br>
                 </div>
                 
                 <h3 style="font-size:1rem; color:#463F3A; margin-bottom:10px;">【去程：出發資訊】</h3>
@@ -774,308 +852,247 @@
             </div>
         </div>
 
-<!-- ================= 購物清單頁面 ================= -->
+<!-- ================= 購物清單頁面 (含分類與美化按鈕) ================= -->
         <div id="shopping" class="page-section">
             <div class="card">
                 <h1>🛍️ 必買清單</h1>
-                <p>點擊右側方塊可標記為「已購買」</p>
-            </div>
-
-            <!-- 商品 1 -->
-            <div class="shop-item">
-                <!-- 圖片連結請換成您自己的圖片 -->
-                <img src="item1.jpg" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">NISSEI MT-36LBJ</div>
-                    <div class="shop-price">NT$1,780</div>
-                    <div class="shop-loc">
-                       <!-- 可以直接放導航連結 -->
-                        <a href="https://maps.app.goo.gl/3oWxHpovEDT8h6G89" target="_blank" class="event-link" style="font-size:0.8rem;">
-                            BigCamera / 藥局
-                     </a>
-                    </div>
+                <p>點擊下方按鈕快速跳轉</p>
+                
+                <!-- 頂部快速跳轉按鈕 -->
+                <div class="shop-nav">
+                    <a href="#cat-food" class="shop-nav-btn"><i class="fas fa-cookie-bite"></i> 伴手禮</a>
+                    <a href="#cat-life" class="shop-nav-btn"><i class="fas fa-home"></i> 生活雜貨</a>
+                    <a href="#cat-drug" class="shop-nav-btn"><i class="fas fa-pills"></i> 藥妝</a>
+                    <a href="#cat-other" class="shop-nav-btn"><i class="fas fa-star"></i> 其他</a>
                 </div>
-                <!-- 勾選框 -->
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
             </div>
 
-            <!-- 商品 2 -->
-            <div class="shop-item">
-                <img src="item2.jpg" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">Tomica Pokémon OKINAWA</div>
-                    <div class="shop-price">¥ ???</div>
-                    <div class="shop-loc">
-                            <i class="fas fa-map-marker-alt"></i> 國際通
+            <!-- === 分類 1: 伴手禮 === -->
+            <div id="cat-food" class="shop-category-title"><i class="fas fa-cookie-bite"></i> 伴手禮 (辣粉/紀念幣)</div>
 
-                    </div>
-                </div>
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
-            </div>
-
-                        <!-- 商品 3 (範例) -->
-            <div class="shop-item">
-                <img src="item3.jpg" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">美麗海水族館的紀念幣</div>
-                    <div class="shop-price">¥ 800</div>
-                    <div class="shop-loc">
-                        <i class="fas fa-map-marker-alt"></i> 美麗海水族館 / 最後販售商品區域
-                    </div>
-                </div>
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
-            </div>
-
-                        <!-- 商品 4 (範例) -->
             <div class="shop-item">
                 <img src="item4.jpg" alt="商品圖片" class="shop-img">
                 <div class="shop-info">
                     <div class="shop-name">辣粉</div>
                     <div class="shop-price">¥ 800</div>
-                    <div class="shop-loc">
-                         <!-- 可以直接放導航連結 -->
-                        <a href="https://maps.app.goo.gl/5TXrr5htUjQogvey8" target="_blank" class="event-link" style="font-size:0.8rem;">
-                            夕凪
-                     </a>
-                    </div>
+                    <div class="shop-loc">夕凪</div>
                 </div>
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
             </div>
 
-                  <!-- 商品 5 (範例) -->
             <div class="shop-item">
                 <img src="item6.jpg" alt="商品圖片" class="shop-img">
                 <div class="shop-info">
                     <div class="shop-name">玉泉洞辣粉</div>
                     <div class="shop-price">¥ 1,188</div>
-                    <div class="shop-loc">
-                         <!-- 可以直接放導航連結 -->
-                        <a href="https://maps.app.goo.gl/5TXrr5htUjQogvey8" target="_blank" class="event-link" style="font-size:0.8rem;">
-                            夕凪
-                     </a>
-                    </div>
+                    <div class="shop-loc">夕凪</div>
                 </div>
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
             </div>
-            
-                      <!-- 商品 6 (範例) -->
+
             <div class="shop-item">
                 <img src="item5.jpg" alt="商品圖片" class="shop-img">
                 <div class="shop-info">
                     <div class="shop-name">石垣島辣油</div>
                     <div class="shop-price">¥ 1,100</div>
-                    <div class="shop-loc">
-                         <!-- 可以直接放導航連結 -->
-                        <a href="https://maps.app.goo.gl/ir6vVQS8gp6AGx2JA" target="_blank" class="event-link" style="font-size:0.8rem;">
-                            唐吉軻德
-                     </a>
-                    </div>
+                    <div class="shop-loc">唐吉軻德</div>
                 </div>
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
             </div>
 
-                                  <!-- 商品 7 (範例) -->
             <div class="shop-item">
-                <img src="item7.jpg" alt="商品圖片" class="shop-img">
+                <img src="item3.jpg" alt="商品圖片" class="shop-img">
                 <div class="shop-info">
-                    <div class="shop-name">日幣零錢包</div>
-                    <div class="shop-price">¥ ???</div>
-                    <div class="shop-loc">
-                         <!-- 可以直接放導航連結 -->
-                        <a href="https://maps.app.goo.gl/GqSsBaqYcuUDpCyM7" target="_blank" class="event-link" style="font-size:0.8rem;">
-                            3coins
-                     </a>
-                    </div>
+                    <div class="shop-name">美麗海水族館紀念幣</div>
+                    <div class="shop-price">¥ 800</div>
+                    <div class="shop-loc">水族館商店</div>
                 </div>
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
             </div>
 
-                                  <!-- 商品 8 (範例) -->
-            <div class="shop-item">
-                <img src="item8.jpg" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">二合一眼鏡盒</div>
-                    <div class="shop-price">¥ 1,320</div>
-                    <div class="shop-loc">
-                         <!-- 可以直接放導航連結 -->
-                        <a href="https://maps.app.goo.gl/GqSsBaqYcuUDpCyM7" target="_blank" class="event-link" style="font-size:0.8rem;">
-                            3coins
-                     </a>
-                    </div>
-                </div>
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
-            </div>
+            <!-- === 分類 2: 生活雜貨 === -->
+            <div id="cat-life" class="shop-category-title"><i class="fas fa-home"></i> 生活雜貨 (3COINS/安木屋)</div>
 
-                        <!-- 商品 18 (範例) -->
-            <div class="shop-item">
-                <img src="item18.jpg" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">一盒六用 微波爐料理盒</div>
-                    <div class="shop-price">¥ 3,599</div>
-                    <div class="shop-loc">
-                        <i class="fas fa-map-marker-alt"></i> 3coins
-                    </div>
-                </div>
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
-            </div>
-            
-            <!-- 商品 9 (範例) -->
-            <div class="shop-item">
-                <img src="item9.jpeg" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">DHC 維他命C 60日</div>
-                    <div class="shop-price">¥ ???</div>
-                    <div class="shop-loc">
-                        <i class="fas fa-map-marker-alt"></i> 藥局 / 12包
-                    </div>
-                </div>
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
-            </div>
-
-            <!-- 商品 10 (範例) -->
-            <div class="shop-item">
-                <img src="item10.jpg" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">EVE QUICK止痛藍色款40錠</div>
-                    <div class="shop-price">¥ ???</div>
-                    <div class="shop-loc">
-                        <i class="fas fa-map-marker-alt"></i> 藥局 / 12盒
-                    </div>
-                </div>
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
-            </div>
-
-               <!-- 商品 12 (範例) -->
-            <div class="shop-item">
-                <img src="item12.jpg" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">武田維他命C (300錠)</div>
-                    <div class="shop-price">¥ ???</div>
-                    <div class="shop-loc">
-                        <i class="fas fa-map-marker-alt"></i> 藥局 / 1瓶
-                    </div>
-                </div>
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
-            </div>
-
-               <!-- 商品 13 (範例) -->
-            <div class="shop-item">
-                <img src="item13.jpg" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">小林製藥扁桃腺喉嚨冷感噴劑 15ml</div>
-                    <div class="shop-price">¥ ???</div>
-                    <div class="shop-loc">
-                        <i class="fas fa-map-marker-alt"></i> 藥局 / 1支
-                    </div>
-                </div>
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
-            </div>
-
-               <!-- 商品 14 (範例) -->
-            <div class="shop-item">
-                <img src="item14.jpg" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">小林製藥扁桃腺發炎喉嚨腫痛藥粉 9包</div>
-                    <div class="shop-price">¥ ???</div>
-                    <div class="shop-loc">
-                        <i class="fas fa-map-marker-alt"></i> 藥局 / 1盒
-                    </div>
-                </div>
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
-            </div>
-
-               <!-- 商品 15 (範例) -->
-            <div class="shop-item">
-                <img src="item15.jpg" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">UHA 鐵 & 葉酸軟糖 30日份 60粒</div>
-                    <div class="shop-price">¥ ???</div>
-                    <div class="shop-loc">
-                        <i class="fas fa-map-marker-alt"></i> 藥局 / 2瓶
-                    </div>
-                </div>
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
-            </div>
-
-               <!-- 商品 16 (範例) -->
-            <div class="shop-item">
-                <img src="item16.jpg" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">V Rohto Contact Premium 隱形眼鏡眼藥水 清涼感 15ml</div>
-                    <div class="shop-price">¥ ???</div>
-                    <div class="shop-loc">
-                        <i class="fas fa-map-marker-alt"></i> 藥局 / 2瓶
-                    </div>
-                </div>
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
-            </div>
-
-             <!-- 商品 17 (範例) -->
-            <div class="shop-item">
-                <img src="item17.jpg" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">Sante Medical 12 (紅色)</div>
-                    <div class="shop-price">¥ ???</div>
-                    <div class="shop-loc">
-                        <i class="fas fa-map-marker-alt"></i> 藥局 / 2瓶
-                    </div>
-                </div>
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
-            </div>
-
-             <!-- 商品 19 (範例) -->
             <div class="shop-item">
                 <img src="item19.jpg" alt="商品圖片" class="shop-img">
                 <div class="shop-info">
                     <div class="shop-name">LIHIT LAB myfa娃包</div>
                     <div class="shop-price">¥ ???</div>
                     <div class="shop-loc">
-                      <!-- 可以直接放導航連結 -->
                         <a href="https://maps.app.goo.gl/LzpQ1yFjMSWADDau8" target="_blank" class="event-link" style="font-size:0.8rem;">
-                            安木屋 / M號(A3305)H130xW90xD60
-                     </a>
-                    </div> 
+                            安木屋 / M號(A3305)
+                        </a>
+                    </div>
                 </div>
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
             </div>
 
-             <!-- 商品 20 (範例) -->
+            <div class="shop-item">
+                <img src="item7.jpg" alt="商品圖片" class="shop-img">
+                <div class="shop-info">
+                    <div class="shop-name">日幣零錢包</div>
+                    <div class="shop-price">¥ ???</div>
+                    <div class="shop-loc">3coins</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+            
+            <div class="shop-item">
+                <img src="item8.jpg" alt="商品圖片" class="shop-img">
+                <div class="shop-info">
+                    <div class="shop-name">二合一眼鏡盒</div>
+                    <div class="shop-price">¥ 1,320</div>
+                    <div class="shop-loc">3coins</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+
+            <div class="shop-item">
+                <img src="item18.jpg" alt="商品圖片" class="shop-img">
+                <div class="shop-info">
+                    <div class="shop-name">一盒六用 微波爐料理盒</div>
+                    <div class="shop-price">¥ 3,599</div>
+                    <div class="shop-loc">3coins</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+
             <div class="shop-item">
                 <img src="item20.jpg" alt="商品圖片" class="shop-img">
                 <div class="shop-info">
                     <div class="shop-name">Shupatto購物袋</div>
                     <div class="shop-price">¥ ???</div>
                     <div class="shop-loc">
-                        <!-- 可以直接放導航連結 -->
                         <a href="https://maps.app.goo.gl/kGygj5QkykK2xA336" target="_blank" class="event-link" style="font-size:0.8rem;">
-                            堂吉訶德
-                     </a>
+                            唐吉軻德
+                        </a>
                     </div>
                 </div>
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
             </div>
 
-             <!-- 商品 21 (範例) -->
+            <!-- === 分類 3: 藥妝 === -->
+            <div id="cat-drug" class="shop-category-title"><i class="fas fa-pills"></i> 藥妝 (DHC/眼藥水)</div>
+
             <div class="shop-item">
+                <img src="item1.jpg" alt="商品圖片" class="shop-img">
+                <div class="shop-info">
+                    <div class="shop-name">NISSEI MT-36LBJ</div>
+                    <div class="shop-price">NT$1,780</div>
+                    <div class="shop-loc">
+                        <a href="https://maps.app.goo.gl/3oWxHpovEDT8h6G89" target="_blank" class="event-link" style="font-size:0.8rem;">
+                            BigCamera / 藥局
+                        </a>
+                    </div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+
+            <div class="shop-item">
+                <img src="item9.jpeg" alt="商品圖片" class="shop-img">
+                <div class="shop-info">
+                    <div class="shop-name">DHC 維他命C 60日</div>
+                    <div class="shop-price">¥ ???</div>
+                    <div class="shop-loc">藥局 / 12包</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+            
+            <div class="shop-item">
+                <img src="item10.jpg" alt="商品圖片" class="shop-img">
+                <div class="shop-info">
+                    <div class="shop-name">EVE QUICK 藍色 40錠</div>
+                    <div class="shop-price">¥ ???</div>
+                    <div class="shop-loc">藥局 / 12盒</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+
+            <div class="shop-item">
+                <img src="item12.jpg" alt="商品圖片" class="shop-img">
+                <div class="shop-info">
+                    <div class="shop-name">武田維他命C (300錠)</div>
+                    <div class="shop-price">¥ ???</div>
+                    <div class="shop-loc">藥局 / 1瓶</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+
+            <div class="shop-item">
+                <img src="item13.jpg" alt="商品圖片" class="shop-img">
+                <div class="shop-info">
+                    <div class="shop-name">小林製藥喉嚨噴劑</div>
+                    <div class="shop-price">¥ ???</div>
+                    <div class="shop-loc">藥局 / 1支</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+             <div class="shop-item">
+                <img src="item14.jpg" alt="商品圖片" class="shop-img">
+                <div class="shop-info">
+                    <div class="shop-name">小林製藥喉嚨痛藥粉</div>
+                    <div class="shop-price">¥ ???</div>
+                    <div class="shop-loc">藥局 / 1盒</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+             <div class="shop-item">
+                <img src="item15.jpg" alt="商品圖片" class="shop-img">
+                <div class="shop-info">
+                    <div class="shop-name">UHA 鐵 & 葉酸軟糖</div>
+                    <div class="shop-price">¥ ???</div>
+                    <div class="shop-loc">藥局 / 2瓶</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+             <div class="shop-item">
+                <img src="item16.jpg" alt="商品圖片" class="shop-img">
+                <div class="shop-info">
+                    <div class="shop-name">V Rohto Contact Premium</div>
+                    <div class="shop-price">¥ ???</div>
+                    <div class="shop-loc">藥局 / 2瓶</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+             <div class="shop-item">
+                <img src="item17.jpg" alt="商品圖片" class="shop-img">
+                <div class="shop-info">
+                    <div class="shop-name">Sante Medical 12 (紅)</div>
+                    <div class="shop-price">¥ ???</div>
+                    <div class="shop-loc">藥局 / 2瓶</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+
+            <!-- === 分類 4: 其他 === -->
+            <div id="cat-other" class="shop-category-title"><i class="fas fa-star"></i> 其他</div>
+
+            <div class="shop-item">
+                <img src="item2.jpg" alt="商品圖片" class="shop-img">
+                <div class="shop-info">
+                    <div class="shop-name">Tomica Pokémon</div>
+                    <div class="shop-price">¥ ???</div>
+                    <div class="shop-loc">國際通</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+            
+            <div class="shop-item">
+                <img src="https://via.placeholder.com/150" alt="商品圖片" class="shop-img">
+                <div class="shop-info">
+                    <div class="shop-name">Gentle Monster 墨鏡</div>
+                    <div class="shop-price">¥ 1,000</div>
+                    <div class="shop-loc">現代百貨</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+             <div class="shop-item">
                 <img src="item21.jpg" alt="商品圖片" class="shop-img">
                 <div class="shop-info">
                     <div class="shop-name">商品</div>
                     <div class="shop-price">¥ ???</div>
                     <div class="shop-loc">
                         <i class="fas fa-map-marker-alt"></i> 地點 / 備註
-                    </div>
-                </div>
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
-            </div>
-
-            <!-- 商品 22 (範例) -->
-            <div class="shop-item">
-                <img src="https://via.placeholder.com/150" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">Gentle Monster 墨鏡</div>
-                    <div class="shop-price">¥ 1,000</div>
-                    <div class="shop-loc">
-                        <i class="fas fa-map-marker-alt"></i> 現代百貨 / 旗艦店
                     </div>
                 </div>
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
