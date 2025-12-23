@@ -7,7 +7,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
     :root {
-        /* --- 大地色系配色 (V3.0 最終版) --- */
+        /* --- 大地色系配色 (V4.0 最終版) --- */
         --bg-color: #F2F0E9;       /* 背景：亞麻米白 */
         --sidebar-bg: #4A403A;     /* 選單：深焙咖啡色 */
         --card-bg: #FFFFFF;        /* 卡片：純白 */
@@ -23,12 +23,11 @@
         color: var(--text-color);
         font-family: "Helvetica Neue", "Noto Sans TC", Arial, sans-serif;
         margin: 0;
-        /* ★★★ 修正 1：移除 height: 100vh 和 overflow: hidden，改回自然捲動 ★★★ */
         overflow-x: hidden; 
         min-height: 100vh;
     }
 
-    /* 左側選單 - 改為固定定位 (Fixed) */
+    /* 左側選單 */
     .sidebar {
         width: 80px;
         background-color: var(--sidebar-bg);
@@ -37,15 +36,13 @@
         align-items: center;
         padding-top: 20px;
         box-shadow: 2px 0 5px rgba(0,0,0,0.05);
-        z-index: 100; /* 確保在最上層 */
-        
-        /* ★★★ 修正 1：固定在左側，不隨頁面捲動 ★★★ */
+        z-index: 100;
         position: fixed;
         top: 0;
         left: 0;
         bottom: 0;
         height: 100%;
-        overflow-y: auto; /* 選單太長時可以捲動 */
+        overflow-y: auto;
     }
 
     .menu-item {
@@ -69,11 +66,10 @@
 
     /* 右側內容區 */
     .content {
-        /* ★★★ 修正 1：移除 flex 和 overflow 設定，改用 margin 讓出選單空間 ★★★ */
-        margin-left: 80px; /* 留出左邊選單的寬度 */
+        margin-left: 80px; 
         padding: 20px;
         min-height: 100vh;
-        padding-bottom: 120px; /* 底部緩衝 */
+        padding-bottom: 120px;
     }
 
     .page-section { display: none; animation: fadeIn 0.5s; }
@@ -157,10 +153,54 @@
     .bg-jnto { background-color: #3498db; }
     .bg-amda { background-color: #27ae60; }
 
-    /* ========================================= */
-    /* --- 購物清單專用樣式 (Shopping List) --- */
-    /* ========================================= */
+    /* 購物分類樣式 */
+    .shop-category-title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #fff;
+        background-color: var(--accent-color);
+        padding: 8px 15px;
+        border-radius: 8px;
+        margin-top: 25px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        letter-spacing: 1px;
+    }
+    .shop-category-title i { margin-right: 8px; }
 
+    .shop-nav {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .shop-nav::-webkit-scrollbar { display: none; }
+
+    .shop-nav-btn {
+        background-color: #FFFFFF;
+        border: 1px solid var(--accent-color);
+        border-radius: 30px;
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        color: var(--accent-color);
+        text-decoration: none;
+        transition: 0.2s;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+    }
+    .shop-nav-btn i { margin-right: 5px; }
+    .shop-nav-btn:active, .shop-nav-btn:hover {
+        background-color: var(--accent-color);
+        color: #ffffff;
+    }
+
+    /* 購物清單項目樣式 */
     .shop-item {
         display: flex;
         align-items: center;
@@ -172,18 +212,14 @@
         border: 1px solid #eee;
         transition: 0.3s;
     }
-
-    /* 圖片設定 */
     .shop-img {
         width: 80px;
         height: 80px;
         border-radius: 8px;
-        object-fit: cover; /* 確保圖片不變形填滿 */
-        background-color: #f0f0f0; /* 圖片載入前的底色 */
+        object-fit: cover;
+        background-color: #f0f0f0;
         flex-shrink: 0;
     }
-
-    /* 文字資訊區 */
     .shop-info {
         flex: 1;
         padding-left: 15px;
@@ -191,110 +227,19 @@
         flex-direction: column;
         justify-content: center;
     }
-
-    .shop-name {
-        font-size: 1rem;
-        font-weight: bold;
-        color: #463F3A;
-        margin-bottom: 4px;
-    }
-
-    .shop-price {
-        font-size: 0.9rem;
-        color: var(--accent-color); /* 摩卡色 */
-        font-weight: bold;
-        margin-bottom: 4px;
-    }
-
-    .shop-loc {
-        font-size: 0.8rem;
-        color: #888;
-    }
-
-    /* 勾選框 */
+    .shop-name { font-size: 1rem; font-weight: bold; color: #463F3A; margin-bottom: 4px; }
+    .shop-price { font-size: 0.9rem; color: var(--accent-color); font-weight: bold; margin-bottom: 4px; }
+    .shop-loc { font-size: 0.8rem; color: #888; }
     .shop-check {
         width: 25px;
         height: 25px;
         cursor: pointer;
-        accent-color: var(--accent-color); /* 勾選顏色跟主題一樣 */
+        accent-color: var(--accent-color);
         margin-left: 10px;
     }
-
-    /* 買完後的狀態 (變灰、刪除線) */
-    .shop-item.bought {
-        opacity: 0.5;
-        background-color: #f9f9f9;
-    }
-    .shop-item.bought .shop-name {
-        text-decoration: line-through;
-    }
+    .shop-item.bought { opacity: 0.5; background-color: #f9f9f9; }
+    .shop-item.bought .shop-name { text-decoration: line-through; }
     
-    /* 水族館 Tips 樣式 */
-    .tip-section-header {
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: var(--accent-color);
-        border-bottom: 2px solid #eee;
-        padding-bottom: 10px;
-        margin-top: 20px;
-        margin-bottom: 15px;
-    }
-
-    /* ========================================= */
-    /* --- 購物分類與導航按鈕 (新增) --- */
-    /* ========================================= */
-
-    /* 分類標題 */
-    .shop-category-title {
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: #fff;
-        background-color: var(--accent-color); /* 使用摩卡色背景 */
-        padding: 8px 15px;
-        border-radius: 8px;
-        margin-top: 25px;
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        letter-spacing: 1px;
-    }
-    .shop-category-title i { margin-right: 8px; }
-
-    /* 頂部快速跳轉按鈕容器 */
-    .shop-nav {
-        display: flex;
-        gap: 10px;
-        overflow-x: auto;       /* 允許橫向滑動 */
-        padding-bottom: 5px;
-        margin-bottom: 10px;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* 隱藏捲軸 */
-    }
-    .shop-nav::-webkit-scrollbar { display: none; }
-
-    /* 跳轉按鈕 (美化版：摩卡色外框) */
-    .shop-nav-btn {
-        background-color: #FFFFFF;
-        border: 1px solid var(--accent-color);
-        border-radius: 30px;            /* 圓角膠囊狀 */
-        padding: 8px 16px;
-        font-size: 0.9rem;
-        color: var(--accent-color);     /* 文字摩卡色 */
-        text-decoration: none;
-        transition: 0.2s;
-        font-weight: bold;
-        display: inline-flex;
-        align-items: center;
-    }
-    
-    .shop-nav-btn i { margin-right: 5px; }
-
-    /* 按鈕點擊特效 */
-    .shop-nav-btn:active, .shop-nav-btn:hover {
-        background-color: var(--accent-color); /* 變摩卡色底 */
-        color: #ffffff;                        /* 變白字 */
-    }
 </style>
 </head>
 <body>
@@ -572,7 +517,7 @@
                         <span class="event-title">
                             點心：<a href="https://maps.app.goo.gl/V8CDaMe8bDZqS5pQ6" target="_blank" class="event-link">mille mele ミレメーレ 世界第一蘋果派 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc"><span class="transport-tag">步行</span></div>
+                        <div class="event-desc"><span class="transport-tag">步行</div>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -754,9 +699,9 @@
                 <h2>🚌 交通：117 號高速巴士 - 那霸 ⇆ 水族館 (小抄版)</h2>
                 <div class="tip-box" style="margin-top: 0; margin-bottom: 15px;">
                     <span class="tip-title">💡 小叮嚀</span>
-                    1. 認明車頭： 認準 [117] 標誌，111 號通常不到水族館。<br>
-                    2. 不需預約： 自由席先到先坐，客滿需等下一班。<br>
-                    3. 現金為主： 大多無法使用 Suica，請務必備妥現金。<br>
+1. 認明車頭： 認準 [117] 標誌，111 號通常不到水族館。<br>
+2. 不需預約： 自由席先到先坐，客滿需等下一班。<br>
+3. 現金為主： 大多無法使用 Suica，請務必備妥現金。<br>
                 </div>
                 
                 <h3 style="font-size:1rem; color:#463F3A; margin-bottom:10px;">【去程：出發資訊】</h3>
@@ -768,7 +713,7 @@
                     • 09:31 出發 → 約 11:50 抵達<br>
                     • 10:25 出發 → 約 12:18 抵達<br>
                     <span style="font-size:0.8rem; color:#888;">(請提早 15 分鐘現場排隊)</span><br>
-                    <b>下車地點：</b> 記念公園前（美ら海水族館）
+                    <b>下車地點：</b> 記念公園前（美ら海水族館）<br>
                 </p>
                 
                 <hr style="border: 0; border-top: 1px dashed #ddd; margin: 15px 0;">
@@ -822,7 +767,8 @@
                 <div class="timeline-item">
                     <div class="time-col">15:00</div>
                     <div class="event-col">
-                        <span class="event-title highlight" style="color:#e74c3c;">必看：黑潮之海 - 鯨鯊餵食秀</span>
+                        <span class="event-title highlight" style="color:#e74c3c;">
+必看：黑潮之海 - 鯨鯊餵食秀</span>
                         <div class="event-desc">黑潮之海大水槽前。鯨鯊垂直進食震撼畫面！</div>
                     </div>
                 </div>
@@ -939,13 +885,9 @@
             <div class="shop-item">
                 <img src="item7.jpg" alt="商品圖片" class="shop-img">
                 <div class="shop-info">
-                    <div class="shop-name">コインホルダー付小銭ケース(日幣零錢包)</div>
-                    <div class="shop-price">¥ 550</div>
-                    <div class="shop-loc">
-                        <a href="https://www.palcloset.jp/display/item/2524-M09-000000/" target="_blank" class="event-link" style="font-size:0.8rem;">
-                            3coins
-                        </a>
-                   </div>
+                    <div class="shop-name">日幣零錢包</div>
+                    <div class="shop-price">¥ ???</div>
+                    <div class="shop-loc">3coins</div>
                 </div>
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
             </div>
@@ -953,13 +895,9 @@
             <div class="shop-item">
                 <img src="item8.jpg" alt="商品圖片" class="shop-img">
                 <div class="shop-info">
-                    <div class="shop-name">メガネコンタクトレンズケース(二合一眼鏡盒)</div>
-                    <div class="shop-price">¥ 1,100</div>
-                    <div class="shop-loc">
-                        <a href="https://www.palcloset.jp/display/item/2513-1HB78-0000/?cl=60&b=3coins&ss=" target="_blank" class="event-link" style="font-size:0.8rem;">
-                            3coins
-                        </a>
-                   </div>
+                    <div class="shop-name">二合一眼鏡盒</div>
+                    <div class="shop-price">¥ 1,320</div>
+                    <div class="shop-loc">3coins</div>
                 </div>
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
             </div>
@@ -967,27 +905,9 @@
             <div class="shop-item">
                 <img src="item18.jpg" alt="商品圖片" class="shop-img">
                 <div class="shop-info">
-                    <div class="shop-name">《1台6役》電子レンジ調理器／KITINTO(一盒六用 微波爐料理盒)</div>
-                    <div class="shop-price">¥ 2,200</div>
-                    <div class="shop-loc">
-                        <a href="https://www.palcloset.jp/display/item/2416-HCMWP01-00/" target="_blank" class="event-link" style="font-size:0.8rem;">
-                            3coins
-                        </a>
-                   </div>
-                </div>
-                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
-            </div>
-
-                        <div class="shop-item">
-                <img src="item21.jpg" alt="商品圖片" class="shop-img">
-                <div class="shop-info">
-                    <div class="shop-name">持ち手カバー(提袋握把套)</div>
-                    <div class="shop-price">¥ 330</div>
-                    <div class="shop-loc">
-                        <a href="https://www.palcloset.jp/display/item/2525-3C2B479-00/?cl=17&b=3coins&ss=" target="_blank" class="event-link" style="font-size:0.8rem;">
-                            3coins
-                        </a>
-                        </div>
+                    <div class="shop-name">一盒六用 微波爐料理盒</div>
+                    <div class="shop-price">¥ 3,599</div>
+                    <div class="shop-loc">3coins</div>
                 </div>
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
             </div>
@@ -1107,7 +1027,6 @@
                 </div>
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
             </div>
-                        </div>
              <div class="shop-item">
                 <img src="item23.jpg" alt="商品圖片" class="shop-img">
                 <div class="shop-info">
@@ -1141,7 +1060,7 @@
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
             </div>
              <div class="shop-item">
-                <img src="item21.jpg" alt="商品圖片" class="shop-img">
+                <img src="item30.jpg" alt="商品圖片" class="shop-img">
                 <div class="shop-info">
                     <div class="shop-name">商品</div>
                     <div class="shop-price">¥ ???</div>
@@ -1150,6 +1069,15 @@
                     </div>
                 </div>
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+
+            <!-- ================= 新增：購物備忘錄 ================= -->
+            <div class="card" style="margin-top: 30px;">
+                <h2>📝 購物備忘錄</h2>
+                <p style="font-size: 0.8rem; color: #888; margin-bottom: 10px;">內容會自動儲存，關閉網頁不遺失</p>
+                <textarea id="shopMemo" placeholder="在此輸入親友代購清單、衣服尺寸、優惠券代碼..." 
+                    oninput="saveMemo(this.value)"
+                    style="width: 100%; height: 200px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; line-height: 1.5; resize: none; box-sizing: border-box; background-color: #fafafa; color: #463F3A; font-family: inherit;"></textarea>
             </div>
 
         </div>
@@ -1196,43 +1124,94 @@
     </main>
 
     <script>
-        // ★★★ 修正 1：點擊選單時，自動捲動回頂部，解決切換頁面後位置卡在中間的問題 ★★★
+        // ==========================================
+        // --- 核心功能：頁面切換與自動記憶 ---
+        // ==========================================
+
+        // 1. 網頁載入完成時，執行初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- A. 恢復上次瀏覽的頁面 ---
+            const lastPage = localStorage.getItem('last_visited_page');
+            if (lastPage) {
+                // 如果有紀錄，就跳轉到該頁面
+                showPage(lastPage);
+            } else {
+                // 如果是第一次打開，預設顯示 Day 1
+                showPage('day1');
+            }
+
+            // --- B. 恢復購物備忘錄內容 ---
+            const savedText = localStorage.getItem('okinawa_memo');
+            if (savedText) {
+                const memoBox = document.getElementById('shopMemo');
+                if (memoBox) {
+                    memoBox.value = savedText;
+                }
+            }
+        });
+
+        // 2. 切換頁面函數 (已優化：支援自動記憶 + 自動亮起對應按鈕)
         function showPage(pageId) {
+            // A. 隱藏所有內容頁面
             document.querySelectorAll('.page-section').forEach(page => {
                 page.classList.remove('active');
             });
-            document.getElementById(pageId).classList.add('active');
+            
+            // B. 顯示目標頁面 (加強防呆：確認 ID 存在才動作)
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // C. 處理左側選單的按鈕變色
             document.querySelectorAll('.menu-item').forEach(item => {
                 item.classList.remove('active');
+                // 這裡使用一個技巧：檢查按鈕的 onclick 屬性是否包含目標 pageId
+                // 這樣就算不是用手點的 (是重整後自動執行的)，按鈕也會亮起來
+                if (item.getAttribute('onclick').includes("'" + pageId + "'")) {
+                    item.classList.add('active');
+                }
             });
-            event.currentTarget.classList.add('active');
             
-            // 讓網頁捲動到最上面
+            // D. 捲動回最上方
             window.scrollTo(0, 0); 
+
+            // E. ★★★ 關鍵：把現在看的這一頁存起來 ★★★
+            localStorage.setItem('last_visited_page', pageId);
         }
 
-        function convertCurrency(jpy) {
+        // ==========================================
+        // --- 工具功能：匯率、購物、備忘錄 ---
+        // ==========================================
+
+        // 匯率換算
+        function convertCurrency(amount) {
+            // ★ 請確認匯率 (目前設為 0.20)
             const rate = 0.20; 
-            const twd = Math.round(jpy * rate);
+            const twd = Math.round(amount * rate);
             document.getElementById('twdResult').innerText = "NT$ " + twd;
         }
 
+        // 清除匯率輸入
         function clearCurrency() {
             document.getElementById('calcInput').value = '';
             document.getElementById('twdResult').innerText = "NT$ 0";
         }
-        // ... (其他的 function) ...
 
-        // ★★★ 新增：購物清單勾選特效 ★★★
+        // 購物清單勾選特效
         function toggleBought(checkbox) {
-            // 找到這個 checkbox 的父層 (也就是整張卡片 .shop-item)
             const itemCard = checkbox.closest('.shop-item');
-            
             if (checkbox.checked) {
-                itemCard.classList.add('bought'); // 加上「已購買」樣式
+                itemCard.classList.add('bought');
             } else {
-                itemCard.classList.remove('bought'); // 移除樣式
+                itemCard.classList.remove('bought');
             }
+        }
+
+        // 備忘錄儲存 (打字時自動觸發)
+        function saveMemo(text) {
+            localStorage.setItem('okinawa_memo', text);
         }
     </script>
 
