@@ -23,11 +23,12 @@
         color: var(--text-color);
         font-family: "Helvetica Neue", "Noto Sans TC", Arial, sans-serif;
         margin: 0;
+        /* ★★★ 修正 1：移除 height: 100vh 和 overflow: hidden，改回自然捲動 ★★★ */
         overflow-x: hidden; 
         min-height: 100vh;
     }
 
-    /* 左側選單 */
+    /* 左側選單 - 改為固定定位 (Fixed) */
     .sidebar {
         width: 80px;
         background-color: var(--sidebar-bg);
@@ -36,13 +37,15 @@
         align-items: center;
         padding-top: 20px;
         box-shadow: 2px 0 5px rgba(0,0,0,0.05);
-        z-index: 100;
+        z-index: 100; /* 確保在最上層 */
+        
+        /* ★★★ 修正 1：固定在左側，不隨頁面捲動 ★★★ */
         position: fixed;
         top: 0;
         left: 0;
         bottom: 0;
         height: 100%;
-        overflow-y: auto;
+        overflow-y: auto; /* 選單太長時可以捲動 */
     }
 
     .menu-item {
@@ -66,10 +69,11 @@
 
     /* 右側內容區 */
     .content {
-        margin-left: 80px; 
+        /* ★★★ 修正 1：移除 flex 和 overflow 設定，改用 margin 讓出選單空間 ★★★ */
+        margin-left: 80px; /* 留出左邊選單的寬度 */
         padding: 20px;
         min-height: 100vh;
-        padding-bottom: 120px;
+        padding-bottom: 120px; /* 底部緩衝 */
     }
 
     .page-section { display: none; animation: fadeIn 0.5s; }
@@ -153,54 +157,10 @@
     .bg-jnto { background-color: #3498db; }
     .bg-amda { background-color: #27ae60; }
 
-    /* 購物分類樣式 */
-    .shop-category-title {
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: #fff;
-        background-color: var(--accent-color);
-        padding: 8px 15px;
-        border-radius: 8px;
-        margin-top: 25px;
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        letter-spacing: 1px;
-    }
-    .shop-category-title i { margin-right: 8px; }
+    /* ========================================= */
+    /* --- 購物清單專用樣式 (Shopping List) --- */
+    /* ========================================= */
 
-    .shop-nav {
-        display: flex;
-        gap: 10px;
-        overflow-x: auto;
-        padding-bottom: 5px;
-        margin-bottom: 10px;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-    .shop-nav::-webkit-scrollbar { display: none; }
-
-    .shop-nav-btn {
-        background-color: #FFFFFF;
-        border: 1px solid var(--accent-color);
-        border-radius: 30px;
-        padding: 8px 16px;
-        font-size: 0.9rem;
-        color: var(--accent-color);
-        text-decoration: none;
-        transition: 0.2s;
-        font-weight: bold;
-        display: inline-flex;
-        align-items: center;
-    }
-    .shop-nav-btn i { margin-right: 5px; }
-    .shop-nav-btn:active, .shop-nav-btn:hover {
-        background-color: var(--accent-color);
-        color: #ffffff;
-    }
-
-    /* 購物清單項目樣式 */
     .shop-item {
         display: flex;
         align-items: center;
@@ -212,14 +172,18 @@
         border: 1px solid #eee;
         transition: 0.3s;
     }
+
+    /* 圖片設定 */
     .shop-img {
         width: 80px;
         height: 80px;
         border-radius: 8px;
-        object-fit: cover;
-        background-color: #f0f0f0;
+        object-fit: cover; /* 確保圖片不變形填滿 */
+        background-color: #f0f0f0; /* 圖片載入前的底色 */
         flex-shrink: 0;
     }
+
+    /* 文字資訊區 */
     .shop-info {
         flex: 1;
         padding-left: 15px;
@@ -227,19 +191,110 @@
         flex-direction: column;
         justify-content: center;
     }
-    .shop-name { font-size: 1rem; font-weight: bold; color: #463F3A; margin-bottom: 4px; }
-    .shop-price { font-size: 0.9rem; color: var(--accent-color); font-weight: bold; margin-bottom: 4px; }
-    .shop-loc { font-size: 0.8rem; color: #888; }
+
+    .shop-name {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #463F3A;
+        margin-bottom: 4px;
+    }
+
+    .shop-price {
+        font-size: 0.9rem;
+        color: var(--accent-color); /* 摩卡色 */
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
+
+    .shop-loc {
+        font-size: 0.8rem;
+        color: #888;
+    }
+
+    /* 勾選框 */
     .shop-check {
         width: 25px;
         height: 25px;
         cursor: pointer;
-        accent-color: var(--accent-color);
+        accent-color: var(--accent-color); /* 勾選顏色跟主題一樣 */
         margin-left: 10px;
     }
-    .shop-item.bought { opacity: 0.5; background-color: #f9f9f9; }
-    .shop-item.bought .shop-name { text-decoration: line-through; }
+
+    /* 買完後的狀態 (變灰、刪除線) */
+    .shop-item.bought {
+        opacity: 0.5;
+        background-color: #f9f9f9;
+    }
+    .shop-item.bought .shop-name {
+        text-decoration: line-through;
+    }
     
+    /* 水族館 Tips 樣式 */
+    .tip-section-header {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: var(--accent-color);
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+        margin-top: 20px;
+        margin-bottom: 15px;
+    }
+
+    /* ========================================= */
+    /* --- 購物分類與導航按鈕 (新增) --- */
+    /* ========================================= */
+
+    /* 分類標題 */
+    .shop-category-title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #fff;
+        background-color: var(--accent-color); /* 使用摩卡色背景 */
+        padding: 8px 15px;
+        border-radius: 8px;
+        margin-top: 25px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        letter-spacing: 1px;
+    }
+    .shop-category-title i { margin-right: 8px; }
+
+    /* 頂部快速跳轉按鈕容器 */
+    .shop-nav {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;       /* 允許橫向滑動 */
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* 隱藏捲軸 */
+    }
+    .shop-nav::-webkit-scrollbar { display: none; }
+
+    /* 跳轉按鈕 (美化版：摩卡色外框) */
+    .shop-nav-btn {
+        background-color: #FFFFFF;
+        border: 1px solid var(--accent-color);
+        border-radius: 30px;            /* 圓角膠囊狀 */
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        color: var(--accent-color);     /* 文字摩卡色 */
+        text-decoration: none;
+        transition: 0.2s;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    .shop-nav-btn i { margin-right: 5px; }
+
+    /* 按鈕點擊特效 */
+    .shop-nav-btn:active, .shop-nav-btn:hover {
+        background-color: var(--accent-color); /* 變摩卡色底 */
+        color: #ffffff;                        /* 變白字 */
+    }
 </style>
 </head>
 <body>
@@ -361,7 +416,28 @@
                     <span class="tip-title">💡 交通小撇步</span>
                     那霸機場「國際線」與「國內線」航廈是相連的。領完行李後，請往國內線航廈走，上二樓就能看到單軌電車站 (那霸空港站)。
                 </div>
-
+                <div class="timeline-item">
+                    <div class="time-col">09:00</div>
+                    <div class="event-col">
+                        <span class="event-title">前往桃園機場</span>
+                        <div class="event-desc"><span class="transport-tag">機場捷運</div>
+                    </div>
+                     </div>
+                <div class="timeline-item">
+                    <div class="time-col">10:00</div>
+                    <div class="event-col">
+                        <span class="event-title">辦理登機</span>
+                        <div class="event-desc">第一航廈</div>
+                    </div>
+                     </div>
+                <div class="timeline-item">
+                    <div class="time-col">13:30<br>
+                        15:55</div>
+                    <div class="event-col">
+                        <span class="event-title">搭機</span>
+                        <div class="event-desc"><span class="transport-tag">FD 230</div>
+                    </div>
+                </div>
                 <div class="timeline-item">
                     <div class="time-col">16:40</div>
                     <div class="event-col">
@@ -384,12 +460,12 @@
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="time-col">17:20</div>
+                    <div class="time-col">17:30</div>
                     <div class="event-col">
-                        <span class="event-title">
-                            飯店：<a href="https://maps.app.goo.gl/6sSbrPJA313CmEoY8" target="_blank" class="event-link">沖繩逸之彩飯店 (Makishi) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        <span class="event-title">   
+            飯店：<a href="https://maps.app.goo.gl/eSguwB17J5W9otbP6" target="_blank" class="event-link">沖繩逸之彩飯店 (Makishi)<i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc">Check-in</div>
+            <div class="event-desc">Check-in</div>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -398,18 +474,25 @@
                         <span class="event-title">
                             晚餐：<a href="https://maps.app.goo.gl/FpzZUHoWQuSKd7rY7" target="_blank" class="event-link">琉球の牛 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc"><span class="transport-tag"> 步行</div><div class="event-desc">那霸國際通店 <span class="highlight">⚠️ 務必準時抵達<br>
-                        Premium 菲力牛排+高級烤肉套餐 ¥11,780(¥12,958 含稅)<br>
-Special 烤肉12種套餐(厚切肋扇2種) ¥6,980(¥7,678 含稅)</span></div>
+                        <div class="event-desc"><span class="transport-tag">步行</span> 那霸國際通店 ⚠️ 務必準時抵達<br>
+                            Premium 菲力牛排+高級烤肉套餐 ¥11,780(¥12,958 含稅)<br>
+Special 烤肉12種套餐(厚切肋扇2種) ¥6,980(¥7,678 含稅)</div>
+                    </div>
+                     </div>
+                <div class="timeline-item">
+                    <div class="time-col">21:00</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            購物：<a href="https://maps.app.goo.gl/rZm7CmiBBcgUfAkH6" target="_blank" class="event-link">唐吉訶德 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            </span>
+                        <div class="event-desc"><span class="transport-tag">步行</div>
                     </div>
                     </div>
                 <div class="timeline-item">
-                    <div class="time-col">20:45</div>
+                    <div class="time-col">22:30</div>
                     <div class="event-col">
-                        <span class="event-title">
-                            點心：<a href="https://maps.app.goo.gl/6hDsJERYt6gnCzLv9" target="_blank" class="event-link">南星莎布翁 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                        <div class="event-desc">👍🏻 沖繩檸檬、黑糖 <span class="highlight">⚠️ 只接受現金</span></div>
+                        <span class="event-title">回飯店休息</span>
+                        <div class="event-desc"><span class="transport-tag">步行</div>
                     </div>
                 </div>
             </div>
@@ -427,34 +510,33 @@ Special 烤肉12種套餐(厚切肋扇2種) ¥6,980(¥7,678 含稅)</span></div>
                 
                 <div class="tip-box" style="margin-bottom: 20px; margin-top:0;">
                     <span class="tip-title">💡 交通小撇步</span>
-                    在旭橋站巴士窗口買「117巴士來回特價票 (¥ 3,300)」。今日啟用「單軌電車兩日券 (¥ 1,400)」。
+                    今日啟用「單軌電車三日券 (1,800 JPY)」。記得在旭橋站巴士窗口買「117巴士來回特價票 (3,500 JPY)」。
                 </div>
 
                 <div class="timeline-item">
-                    <div class="time-col">08:00</div>
+                    <div class="time-col">08:30</div>
                     <div class="event-col">
                         <span class="event-title">飯店出發</span>
                         <div class="event-desc">步行前往牧志站</div>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="time-col">08:30</div>
+                    <div class="time-col">09:00</div>
                     <div class="event-col">
                         <span class="event-title">
                             <a href="https://maps.app.goo.gl/1Rt3Ma1ZoYtUb6WH9" target="_blank" class="event-link">購票 (那霸巴士總站) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc">旭橋站旁，購買 117 號高速巴士來回票 (¥ 3,300)</div>
+                        <div class="event-desc">旭橋站旁，購買 117 號高速巴士來回票</div>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="time-col">09:00</div>
+                    <div class="time-col">09:35</div>
                     <div class="event-col">
                         <span class="event-title">
                             <a href="https://docs.google.com/spreadsheets/d/1IJ4K_qXxjTlnTciWrxAuSzv-941ucbrzDTTap6NVWeU/edit?gid=381644222#gid=381644222" target="_blank" class="event-link">搭乘 117 號高速巴士 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                         </span>
-                        <div class="event-desc">11號月台，務必搭乘高速巴士，一般路線無法直達，紀念公園前下車
+                      <div class="event-desc"><span class="transport-tag">117 號高速巴士</span> 11號月台，紀念公園前下車</div>
                         </div>
-                    </div>
                 </div>
                 <div class="timeline-item">
                     <div class="time-col">12:00</div>
@@ -469,19 +551,36 @@ Special 烤肉12種套餐(厚切肋扇2種) ¥6,980(¥7,678 含稅)</span></div>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="time-col">16:12</div>
+                    <div class="time-col">17:00</div>
                     <div class="event-col">
-                        <span class="event-title">搭巴士返回</span>
-                        <div class="event-desc">紀念公園前巴士站</div>
+                        <span class="event-title">搭 117 號高速巴士返回</span>
+                        <div class="event-desc"><span class="transport-tag">117 號高速巴士</span> 搭乘地點：紀念公園前巴士站</div>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="time-col">19:00</div>
+                    <div class="time-col">20:00</div>
                     <div class="event-col">
-                        <span class="event-title">
-                            晚餐：<a href="https://maps.app.goo.gl/oWjFg6F6rTsUJ5Fi6" target="_blank" class="event-link">Sanukiya <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                        <div class="event-desc">豬肉烏龍麵、炸蝦烏龍麵、醬油烏龍麵(鰹魚湯底)、山藥烏龍麵</div>
+                 <span class="event-title">
+                        晚餐：<a href="https://maps.app.goo.gl/HM1gFM63McofHzLM8" target="_blank" class="event-link">Sanukiya <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                      </span>
+                       <div class="event-desc"><span class="transport-tag">單軌</span> 旭橋 → 美榮橋 (¥ 300) + 步行<br>
+                        📝 豬肉烏龍麵、山藥烏龍麵</div>
+                    </div>
+                  </div>
+                <div class="timeline-item">
+                    <div class="time-col">21:00</div>
+                    <div class="event-col">
+                 <span class="event-title">
+                        購物：<a href="https://maps.app.goo.gl/oVKXYx71UTrFnBfL6" target="_blank" class="event-link">MaxValu 牧志店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                      </span>
+                       <div class="event-desc"><span class="transport-tag">步行</div>
+                    </div>
+                  </div>
+                <div class="timeline-item">
+                    <div class="time-col">23:30</div>
+                    <div class="event-col">
+                        <span class="event-title">回飯店休息</span>
+                        <div class="event-desc"><span class="transport-tag">步行</div>
                     </div>
                 </div>
             </div>
@@ -498,48 +597,12 @@ Special 烤肉12種套餐(厚切肋扇2種) ¥6,980(¥7,678 含稅)</span></div>
                 <h2>🗓️ 購物與美食</h2>
                 
                 <div class="timeline-item">
-                    <div class="time-col">10:00</div>
-                    <div class="event-col">
-                        <span class="event-title">
-                            早餐：<a href="https://maps.app.goo.gl/cEWtpzYBQm5gdMpRA" target="_blank" class="event-link">C&C Breakfast <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                        <div class="event-desc">班尼迪克蛋、莓果碗</div>
-                    </div>
-                    </div>
-                <div class="timeline-item">
-                    <div class="time-col">10:00</div>
-                    <div class="event-col">
-                        <span class="event-title">
-                            早餐備案：<a href="https://maps.app.goo.gl/7c7oMRVNcXrAFBoD7" target="_blank" class="event-link">Pork Tamago Onigiri Makishi Market <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                        <div class="event-desc"><span class="transport-tag">步行</span> 飯糰</div>
-                    </div>
-                    </div>
-                <div class="timeline-item">
-                    <div class="time-col">11:00</div>
-                    <div class="event-col">
-                        <span class="event-title">
-                            點心：<a href="https://maps.app.goo.gl/V8CDaMe8bDZqS5pQ6" target="_blank" class="event-link">mille mele ミレメーレ 世界第一蘋果派 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                        <div class="event-desc"><span class="transport-tag">步行</div>
-                    </div>
-                </div>
-                <div class="timeline-item">
                     <div class="time-col">11:00</div>
                     <div class="event-col">
                         <span class="event-title">
                             參拜：<a href="https://maps.app.goo.gl/wP6nSfQb77VoycxA7" target="_blank" class="event-link">西來院 (達摩寺) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
                         <div class="event-desc"><span class="transport-tag">單軌</span> 牧志 → 首里 (¥ 300)</div>
-                    </div>
-                    </div>
-                <div class="timeline-item">
-                    <div class="time-col">11:30</div>
-                    <div class="event-col">
-                        <span class="event-title">
-                            點心：<a href="https://maps.app.goo.gl/d2xT4uwBqHkcu17d9" target="_blank" class="event-link">hoppepan <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                        <div class="event-desc"><span class="transport-tag">單軌+步行</span> 首里 → 古島 (¥ 230) + 步行850公尺/12分鐘</div>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -548,41 +611,75 @@ Special 烤肉12種套餐(厚切肋扇2種) ¥6,980(¥7,678 含稅)</span></div>
                         <span class="event-title">
                             午餐：<a href="https://maps.app.goo.gl/ZmsdbrEqCpTZwcet6" target="_blank" class="event-link">漁師食堂 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc"><span class="transport-tag">Uber</span> Uber (¥1,500 ~ ¥1,900)</div>
+                        <div class="event-desc"><span class="transport-tag">單軌/TAXI GO</span> 首里 → 古島 (¥ 230) + TAXI GO (¥ 1,300)<br>
+                        📝 套餐：鰻魚丼飯 + 甜蝦 + 天使假*3 + 炸蝦*2 (¥ 3,780)</div>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="time-col">13:30</div>
+                    <div class="time-col">14:30</div>
                     <div class="event-col">
                         <span class="event-title">
                             購物：<a href="https://maps.app.goo.gl/YwXU44HuKz6iWBB76" target="_blank" class="event-link">KOJIMA × BicCamera <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc"><span class="transport-tag">Uber</span> 漁師食堂 → KOJIMA (¥800 ~ ¥1,200)</div>
+                        <div class="event-desc"><span class="transport-tag">TAXI GO</span>TAXI GO (¥ 800)</div>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="time-col">15:00</div>
+                    <div class="time-col">15:30</div>
                     <div class="event-col">
                         <span class="event-title">
                             購物：<a href="https://maps.app.goo.gl/NakfUJbKts2YcLwm8" target="_blank" class="event-link">歌町站商圈購物 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                            <div class="event-desc"><span class="transport-tag">Uber</span> KOJIMA → 歌町站商圈 (¥1,100 ~ ¥1,600)<br><span class="highlight">DFS、3COINS、大創、YAMADA、西松屋</span></div>
+                            <div class="event-desc"><span class="transport-tag">TAXI GO</span>TAXI GO (¥ 1,100)<br>
+                                YAMADA LAND、DFS、3COINS</div>
+                    </div>
+                     </div>
+                <div class="timeline-item">
+                    <div class="time-col">18:30</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            購物：<a href="https://maps.app.goo.gl/gqDhJchFSXYai2N96" target="_blank" class="event-link">山田電機 YAMADA Land <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            </span>
+                        <div class="event-desc"><span class="transport-tag">步行</div>
+                    </div>
+               </div>
+                <div class="timeline-item">
+                    <div class="time-col">19:30</div>
+                    <div class="event-col">
+                        <span class="event-title">晚餐：Burger Revolution Naha</span>
+                        <div class="event-desc"><span class="transport-tag">步行</span>📝 經典黑毛和牛漢堡、酪梨起司黑毛和牛漢堡、可樂 (¥ 4,920)</div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="time-col">20:00</div>
                     <div class="event-col">
-                        <span class="event-title">
-                            晚餐：<a href="https://maps.app.goo.gl/ancr2gouz3MvES8y5" target="_blank" class="event-link">Burger Revolution Naha <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                        <div class="event-desc">酪梨起司漢堡</div>
+                        <span class="event-title">回飯店放戰利品</span>
+                        <div class="event-desc"><span class="transport-tag">步行</div>
                     </div>
-                    </div>
+                  </div>
                 <div class="timeline-item">
-                    <div class="time-col">21:30</div>
+                    <div class="time-col">20:30</div>
                     <div class="event-col">
-                        <span class="event-title">回飯店</span>
-                        <div class="event-desc"><span class="transport-tag">步行</span> 一公里/15分鐘</div>
+                        <span class="event-title">
+                            購物：<a href="https://maps.app.goo.gl/cQNQQ3G44xQjbRiX6" target="_blank" class="event-link">夕凪 1號店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            </span>
+                        <div class="event-desc">辣粉、辣油</div>
+                    </div>
+                     </div>
+                <div class="timeline-item">
+                    <div class="time-col">21:00</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            購物：<a href="https://maps.app.goo.gl/rZm7CmiBBcgUfAkH6" target="_blank" class="event-link">唐吉訶德 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            </span>
+                        <div class="event-desc"><span class="transport-tag">步行</div>
+                    </div>
+                                    </div>
+                <div class="timeline-item">
+                    <div class="time-col">23:30</div>
+                    <div class="event-col">
+                        <span class="event-title">回飯店休息</span>
+                        <div class="event-desc"><span class="transport-tag">步行</div>
                     </div>
                 </div>
             </div>
@@ -630,73 +727,65 @@ Special 烤肉12種套餐(厚切肋扇2種) ¥6,980(¥7,678 含稅)</span></div>
                         <span class="event-title">退房 / 寄放行李</span>
                         <div class="event-desc">僅帶輕便背包</div>
                     </div>
-                    </div>
-                    <div class="timeline-item">
+                  </div>
+                <div class="timeline-item">
                     <div class="time-col">10:30</div>
                     <div class="event-col">
                         <span class="event-title">
-                            購物：<a href="https://maps.app.goo.gl/z8tWkJHLTfgpuXPr9" target="_blank" class="event-link">安木屋 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            點心：<a href="https://maps.app.goo.gl/6hDsJERYt6gnCzLv9" target="_blank" class="event-link">南星莎布翁 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc">文具店：LIHIT LAB myfa娃包</div>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="time-col">10:45</div>
-                    <div class="event-col">
-                        <span class="event-title">
-                            購物：<a href="https://maps.app.goo.gl/cQNQQ3G44xQjbRiX6" target="_blank" class="event-link">夕凪 1號店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                        <div class="event-desc">辣粉、辣油</div>
+                        <div class="event-desc">📝 沖繩檸檬、原味 <span class="highlight">⚠️ 只接受現金</span></div>
                     </div>
                     </div>
                 <div class="timeline-item">
                     <div class="time-col">11:00</div>
                     <div class="event-col">
                         <span class="event-title">
-                            購物：<a href="https://maps.app.goo.gl/wa7sFcuQn9miQP236" target="_blank" class="event-link">喜島商店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            點心：<a href="https://maps.app.goo.gl/FVd38Am5r8QWGoFC7" target="_blank" class="event-link">Blue Seal 國際通店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc">牧志公設市場周邊 (特色伴手禮)</div>
+                        <div class="event-desc">📝 琉球紅茶蕨餅</div>
                     </div>
-                    </div>
+                  </div>
                 <div class="timeline-item">
                     <div class="time-col">11:15</div>
                     <div class="event-col">
                         <span class="event-title">
-                            點心：<a href="https://maps.app.goo.gl/FcGHud96EixyV3dg7" target="_blank" class="event-link">Mochi-no-mise Yamaya <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            購物：<a href="https://maps.app.goo.gl/FVd38Am5r8QWGoFC7" target="_blank" class="event-link">國際通 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc">麻糬</div>
+                        <div class="event-desc">購買伴手禮</div>
                     </div>
-                </div>
+                    </div>
                 <div class="timeline-item">
-                    <div class="time-col">11:30</div>
+                    <div class="time-col">11:45</div>
                     <div class="event-col">
                         <span class="event-title">
-                            逛街：<a href="https://maps.app.goo.gl/vMuemaiX5ZCEPZUG6" target="_blank" class="event-link">淳久堂書店那霸店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            點心：<a href="https://maps.app.goo.gl/FcGHud96EixyV3dg7" target="_blank" class="event-link">Mochi-no-mise Yamaya <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                             </span>
-                        <div class="event-desc">駿河屋 B1 扭蛋機</div>
+                        <div class="event-desc">📝 紅豆麻糬</div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="time-col">12:00</div>
                     <div class="event-col">
-                        <span class="event-title">
-                            午餐：<a href="https://maps.app.goo.gl/F54cBHrV5LDuiWH99" target="_blank" class="event-link">LUCKY MAXIMUM <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                        <div class="event-desc">義大利麵</div>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="time-col">14:00</div>
-                    <div class="event-col">
-                        <span class="event-title">返回牧志站領行李</span>
+                        <span class="event-title">返回飯店領行李</span>
                         <div class="event-desc">整理戰利品</div>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="time-col">14:30</div>
+                    <div class="time-col">12:30</div>
                     <div class="event-col">
                         <span class="event-title">前往那霸機場</span>
-                        <div class="event-desc">搭乘單軌電車</div>
+                      </span>
+                        <div class="event-desc"><span class="transport-tag">單軌 </div>
+                    </div>
+                 </div>
+                <div class="timeline-item">
+                    <div class="time-col">13:00</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            點心：<a href="https://maps.app.goo.gl/V8CDaMe8bDZqS5pQ6" target="_blank" class="event-link">mille mele ミレメーレ 世界第一蘋果派 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            </span>
+                        <div class="event-desc">📝 原味蘋果派</div>
                     </div>
                 </div>
             </div>
@@ -714,9 +803,9 @@ Special 烤肉12種套餐(厚切肋扇2種) ¥6,980(¥7,678 含稅)</span></div>
                 <h2>🚌 交通：117 號高速巴士 - 那霸 ⇆ 水族館 (小抄版)</h2>
                 <div class="tip-box" style="margin-top: 0; margin-bottom: 15px;">
                     <span class="tip-title">💡 小叮嚀</span>
-1. 認明車頭： 認準 [117] 標誌，111 號通常不到水族館。<br>
-2. 不需預約： 自由席先到先坐，客滿需等下一班。<br>
-3. 現金為主： 大多無法使用 Suica，請務必備妥現金。<br>
+                    1. 認明車頭： 認準 [117] 標誌，111 號通常不到水族館。<br>
+                    2. 不需預約： 自由席先到先坐，客滿需等下一班。<br>
+                    3. 現金為主： 大多無法使用 Suica，請務必備妥現金。<br>
                 </div>
                 
                 <h3 style="font-size:1rem; color:#463F3A; margin-bottom:10px;">【去程：出發資訊】</h3>
@@ -728,7 +817,7 @@ Special 烤肉12種套餐(厚切肋扇2種) ¥6,980(¥7,678 含稅)</span></div>
                     • 09:31 出發 → 約 11:50 抵達<br>
                     • 10:25 出發 → 約 12:18 抵達<br>
                     <span style="font-size:0.8rem; color:#888;">(請提早 15 分鐘現場排隊)</span><br>
-                    <b>下車地點：</b> 記念公園前（美ら海水族館）<br>
+                    <b>下車地點：</b> 記念公園前（美ら海水族館）
                 </p>
                 
                 <hr style="border: 0; border-top: 1px dashed #ddd; margin: 15px 0;">
@@ -1131,7 +1220,7 @@ Special 烤肉12種套餐(厚切肋扇2種) ¥6,980(¥7,678 含稅)</span></div>
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
             </div>
              <div class="shop-item">
-                <img src="item30.jpg" alt="商品圖片" class="shop-img">
+                <img src="item21.jpg" alt="商品圖片" class="shop-img">
                 <div class="shop-info">
                     <div class="shop-name">商品</div>
                     <div class="shop-price">¥ ???</div>
