@@ -1288,20 +1288,17 @@ Special 烤肉12種套餐(厚切肋扇2種) ¥6,980(¥7,678 含稅)</div>
         // --- 核心功能：頁面切換與自動記憶 ---
         // ==========================================
 
-        // 1. 網頁載入完成時，執行初始化
         document.addEventListener('DOMContentLoaded', function() {
             
-            // --- A. 恢復上次瀏覽的頁面 ---
+            // 1. 恢復上次瀏覽的頁面
             const lastPage = localStorage.getItem('last_visited_page');
             if (lastPage) {
-                // 如果有紀錄，就跳轉到該頁面
                 showPage(lastPage);
             } else {
-                // 如果是第一次打開，預設顯示 Day 1
-                showPage('day1');
+                showPage('day1'); // 預設首頁
             }
 
-            // --- B. 恢復購物備忘錄內容 ---
+            // 2. 恢復「購物備忘錄」內容
             const savedText = localStorage.getItem('okinawa_memo');
             if (savedText) {
                 const memoBox = document.getElementById('shopMemo');
@@ -1309,67 +1306,82 @@ Special 烤肉12種套餐(厚切肋扇2種) ¥6,980(¥7,678 含稅)</div>
                     memoBox.value = savedText;
                 }
             }
+
+            // 3. ★★★ 新增：恢復「購物清單勾選」狀態 ★★★
+            const savedChecks = JSON.parse(localStorage.getItem('okinawa_checks'));
+            if (savedChecks) {
+                const checkboxes = document.querySelectorAll('.shop-check');
+                checkboxes.forEach((cb, index) => {
+                    // 如果記憶體中這個位置是 true (有打勾)
+                    if (savedChecks[index]) {
+                        cb.checked = true;
+                        // 記得把外觀也變成「已購買」樣式
+                        cb.closest('.shop-item').classList.add('bought');
+                    }
+                });
+            }
         });
 
-        // 2. 切換頁面函數 (已優化：支援自動記憶 + 自動亮起對應按鈕)
+        // 頁面切換
         function showPage(pageId) {
-            // A. 隱藏所有內容頁面
             document.querySelectorAll('.page-section').forEach(page => {
                 page.classList.remove('active');
             });
             
-            // B. 顯示目標頁面 (加強防呆：確認 ID 存在才動作)
             const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.classList.add('active');
             }
 
-            // C. 處理左側選單的按鈕變色
             document.querySelectorAll('.menu-item').forEach(item => {
                 item.classList.remove('active');
-                // 這裡使用一個技巧：檢查按鈕的 onclick 屬性是否包含目標 pageId
-                // 這樣就算不是用手點的 (是重整後自動執行的)，按鈕也會亮起來
                 if (item.getAttribute('onclick').includes("'" + pageId + "'")) {
                     item.classList.add('active');
                 }
             });
             
-            // D. 捲動回最上方
             window.scrollTo(0, 0); 
-
-            // E. ★★★ 關鍵：把現在看的這一頁存起來 ★★★
             localStorage.setItem('last_visited_page', pageId);
         }
 
         // ==========================================
-        // --- 工具功能：匯率、購物、備忘錄 ---
+        // --- 工具功能 ---
         // ==========================================
 
         // 匯率換算
         function convertCurrency(amount) {
-            // ★ 請確認匯率 (目前設為 0.20)
-            const rate = 0.20; 
+            const rate = 0.20; // 沖繩匯率
             const twd = Math.round(amount * rate);
             document.getElementById('twdResult').innerText = "NT$ " + twd;
         }
 
-        // 清除匯率輸入
+        // 清除匯率
         function clearCurrency() {
             document.getElementById('calcInput').value = '';
             document.getElementById('twdResult').innerText = "NT$ 0";
         }
 
-        // 購物清單勾選特效
+        // ★★★ 修改：購物清單勾選特效 + 自動存檔 ★★★
         function toggleBought(checkbox) {
+            // 1. 處理視覺效果
             const itemCard = checkbox.closest('.shop-item');
             if (checkbox.checked) {
                 itemCard.classList.add('bought');
             } else {
                 itemCard.classList.remove('bought');
             }
+
+            // 2. 儲存所有勾選狀態
+            // 我們把「每一個」勾選框的狀態 (true/false) 存成一個陣列
+            const checks = [];
+            document.querySelectorAll('.shop-check').forEach(cb => {
+                checks.push(cb.checked);
+            });
+            // 存入 LocalStorage
+            localStorage.setItem('okinawa_checks', JSON.stringify(checks));
         }
 
-        // 備忘錄儲存 (打字時自動觸發)
+        // 備忘錄存檔
         function saveMemo(text) {
             localStorage.setItem('okinawa_memo', text);
         }
