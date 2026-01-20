@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>福岡 4 天 3 夜快樂行</title>
+    <!-- 設定網頁圖示 (Favicon) - 使用飛機 Emoji -->
+    <!-- 設定網頁圖示 (Favicon) - 修正版：強制置中 -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text x=%2250%%22 y=%2250%%22 font-size=%2280%22 text-anchor=%22middle%22 dominant-baseline=%22central%22>✈️</text></svg>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
     :root {
@@ -239,7 +242,77 @@
     }
     .shop-item.bought { opacity: 0.5; background-color: #f9f9f9; }
     .shop-item.bought .shop-name { text-decoration: line-through; }
-    
+
+    /* ========================================= */
+    /* --- 圖片放大燈箱 (Lightbox) --- */
+    /* ========================================= */
+
+   /* 1. 行程裡的小縮圖 (修正版：強制固定大小) */
+    .menu-thumb {
+        width: 150px !important;     /* 強制寬度 150px，不讓它變成 100% */
+        height: 100px !important;    /* 強制高度 100px */
+        object-fit: cover;           /* 保持比例裁切，不會變形 */
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+        border: 1px solid #ccc;      /* 加個細邊框比較好看 */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        transition: 0.2s;
+        display: block;              /* 讓圖片自己佔一行，或是用 inline-block */
+    }
+    .menu-thumb:active { transform: scale(0.95); opacity: 0.8; }
+
+    /* 全螢幕黑色背景 */
+    .lightbox {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.9);
+        overflow: auto;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(5px);
+    }
+
+    /* 放大後的圖片 */
+    .lightbox-img {
+        max-width: 95%;
+        max-height: 90vh;
+        border-radius: 5px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        transition: transform 0.3s ease;
+        cursor: zoom-in;
+    }
+
+    /* 點擊後的「超大模式」 */
+    .lightbox-img.zoomed {
+        max-width: none;
+        max-height: none;
+        width: 250%; /* 強制放大 2.5 倍 */
+        cursor: zoom-out;
+    }
+
+    /* 關閉按鈕 */
+    .close-lightbox {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        color: white;
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 10001;
+        background: rgba(0,0,0,0.5);
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        border-radius: 50%;
+    }
 </style>
 </head>
 <body>
@@ -259,7 +332,6 @@
         <div class="menu-item" onclick="showPage('day4')">
             <i class="fas fa-plane-departure"></i> <span>Day 4</span>
         </div>
-        <!-- 購物清單按鈕 -->
         <div class="menu-item" onclick="showPage('shopping')">
             <i class="fas fa-shopping-cart"></i> <span>購物</span>
         </div>
@@ -312,7 +384,6 @@
                 </div>
                 <div class="flight-box">
                     <div class="info-group"><span class="info-label">座位</span><span class="info-value">21A, 21B</span></div>
-                    <div class="info-group" style="text-align: right;"><span class="info-label">航廈</span><span class="info-value">第一航廈</span></div>
                 </div>
                 <div class="flight-box">
                     <div class="info-group"><span class="info-label">託運行李</span><span class="info-value">20 kg</span></div>
@@ -349,35 +420,36 @@
                 </div>
             </div>
 
-            <!-- Day 1 詳細行程 (待更新) -->
+            <!-- Day 1 詳細行程 (已修正：移除多餘外框) -->
             <div class="card">
-                <div class="card">
                 <h2>🗓️ 今日行程</h2>
                 
                 <div class="tip-box" style="margin-bottom: 20px; margin-top:0;">
                     <span class="tip-title">💡 交通小撇步</span>
-                     
+                        福岡機場➡️地下鐵<br>
+                        1.出關後: 找尋標示「国際線連絡バス」的指引。<br>
+                        2.搭乘免費接駁車: 走到 1號乘車處，搭乘接駁巴士前往國內線航廈。<br>
+                        3.抵達國內線: 依照指示到 B1，即可到達地下鐵「福岡機場站」。 
                 </div>
+
                 <div class="timeline-item">
                     <div class="time-col">07:00</div>
                     <div class="event-col">
                         <span class="event-title">前往桃園機場</span>
-                        <div class="event-desc"><span class="transport-tag">機場捷運</div>
+                        <div class="event-desc"><span class="transport-tag">機場捷運</span></div>
                     </div>
-                     </div>
+                </div>
                 <div class="timeline-item">
                     <div class="time-col">08:00</div>
                     <div class="event-col">
                         <span class="event-title">辦理登機</span>
                         <div class="event-desc">第一航廈</div>
                     </div>
-                     </div>
+                </div>
                 <div class="timeline-item">
-                    <div class="time-col">09:55<br>
-                        13:15</div>
+                    <div class="time-col">09:55</div>
                     <div class="event-col">
-                        <span class="event-title">搭機</span>
-                        <div class="event-desc"><span class="transport-tag">AK 1510</div>
+                        <span class="event-title">搭機 (AK 1510)</span>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -397,11 +469,34 @@
                 <div class="timeline-item">
                     <div class="time-col">14:30</div>
                     <div class="event-col">
-                        <span class="event-title">   
-            飯店：<a href="https://maps.app.goo.gl/J8Wep4gxbxU1iDLK8" target="_blank" class="event-link">天神西通Richmond飯店<i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-            <div class="event-desc">Check-in</div>
-                                </div>
+                        <span class="event-title">
+                            飯店：<a href="https://maps.app.goo.gl/J8Wep4gxbxU1iDLK8" target="_blank" class="event-link">天神西通Richmond飯店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
+                        <div class="event-desc">Check-in</div>
+                    </div>
+                    </div>
+                    <div class="timeline-item">
+                    <div class="time-col">12:00</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            午餐：<a href="https://maps.app.goo.gl/k6ZP13hDpmTbFQgw6" target="_blank" class="event-link">長浜家 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        <div class="event-desc">
+                            只有一種拉麵，選擇麵體硬度和油的多寡<br>
+                            <!-- 這裡加入菜單圖片 -->
+                            <img src="Fukuoka/Fukuoka_img/menu_Nagahama.jpg" class="menu-thumb" onclick="openImage(this)">
+                            <span style="font-size:0.8rem; color:#999;">(點圖放大菜單)</span>
+                        </div>
+                </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">18:00</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            晚餐：<a href="https://maps.app.goo.gl/o5UUQjnt7n1wPGJd6" target="_blank" class="event-link">博多水炊鍋専門 橙 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
+                        <div class="event-desc">
+                            水炊鍋</div>
+                                                </div>
                     </div>
                 </div>
             </div>
@@ -413,14 +508,15 @@
                 <h1>Day 2: 06/19 (五)</h1>
                 <p>福岡探索</p>
             </div>
-
             <div class="card">
                 <h2>🗓️ 行程內容</h2>
                 <div class="timeline-item">
-                    <div class="time-col">待定</div>
+                    <div class="time-col">12:00</div>
                     <div class="event-col">
-                        <span class="event-title">待填寫行程</span>
-                        <div class="event-desc">...</div>
+                        <span class="event-title">   
+                            午餐：<a href="https://maps.app.goo.gl/C34dTaDXVaus1ECX9" target="_blank" class="event-link">Miyake <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
+                        <div class="event-desc">炸魚餅(炸蝦天婦羅)烏龍麵 ⚠️ 只收現金</div>
                     </div>
                 </div>
             </div>
@@ -436,10 +532,21 @@
             <div class="card">
                 <h2>🗓️ 行程內容</h2>
                 <div class="timeline-item">
-                    <div class="time-col">待定</div>
+                    <div class="time-col">12:00</div>
                     <div class="event-col">
-                        <span class="event-title">待填寫行程</span>
-                        <div class="event-desc">...</div>
+                        <span class="event-title">   
+                            午餐：<a href="https://maps.app.goo.gl/Wkv2XzaS7dKpHvVPA" target="_blank" class="event-link">信州蕎麥麵 Murata <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
+                        <div class="event-desc">つけ鴨そば（蕎麥沾麵 鴨肉醬汁）⚠️ 菜單寫冷かけ是冷湯</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">18:00</div>
+                    <div class="event-col">
+                        <span class="event-title">   
+                            晚餐：<a href="https://maps.app.goo.gl/R5LjLYaWeiKAQiKi6" target="_blank" class="event-link">博多牛腸鍋 前田屋 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
+                        <div class="event-desc">牛腸鍋</div>
                     </div>
                 </div>
             </div>
@@ -470,7 +577,6 @@
                 </div>
                 <div class="flight-box">
                     <div class="info-group"><span class="info-label">座位</span><span class="info-value">25A, 25B</span></div>
-                    <!-- <div class="info-group" style="text-align: right;"><span class="info-label">航廈</span><span class="info-value">國際線</span></div> -->
                 </div>
                 <div class="flight-box">
                     <div class="info-group"><span class="info-label">託運行李</span><span class="info-value">20 kg</span></div>
@@ -482,10 +588,26 @@
             <div class="card">
                 <h2>🗓️ 最後行程</h2>
                 <div class="timeline-item">
-                    <div class="time-col">待定</div>
+                    <div class="time-col">12:00</div>
                     <div class="event-col">
-                        <span class="event-title">待填寫行程</span>
-                        <div class="event-desc">...</div>
+                        <span class="event-title">   
+                            午餐：<a href="https://maps.app.goo.gl/R5LjLYaWeiKAQiKi6" target="_blank" class="event-link">博多牛腸鍋 前田屋 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
+                        <div class="event-desc">牛腸鍋</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">12:00</div>
+                    <div class="event-col">
+                        <span class="event-title">返回飯店領行李</span>
+                        <div class="event-desc">整理戰利品</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time-col">12:30</div>
+                    <div class="event-col">
+                        <span class="event-title">前往福岡機場</span>
+                        <div class="event-desc"><span class="transport-tag">地下鐵</span></div>
                     </div>
                 </div>
             </div>
@@ -510,7 +632,7 @@
             <div id="cat-food" class="shop-category-title"><i class="fas fa-cookie-bite"></i> 伴手禮 (範例)</div>
 
             <div class="shop-item">
-                <img src="Okinawa2025_img/item4.jpg" alt="商品圖片" class="shop-img">
+                <img src="https://via.placeholder.com/150" alt="商品圖片" class="shop-img">
                 <div class="shop-info">
                     <div class="shop-name">商品名稱</div>
                     <div class="shop-price">¥ 800</div>
@@ -542,7 +664,7 @@
         <div id="money" class="page-section">
             <div class="card">
                 <h1>💰 簡易匯率換算</h1>
-                <p>輸入日幣，換算台幣 (以 0.20 計算)</p>
+                <p>輸入日幣，換算台幣 (以 0.21 計算)</p>
                 <div class="result-box" id="twdResult" style="background: #333; color: #0f0; padding: 15px; font-family: monospace; font-size: 1.5rem; text-align: right; border-radius: 5px; margin-bottom: 10px;">NT$ 0</div>
                 
                 <div style="display: flex; gap: 10px;">
@@ -594,6 +716,12 @@
 
     </main>
 
+    <!-- ================= 圖片放大燈箱容器 ================= -->
+    <div id="myLightbox" class="lightbox" onclick="closeLightbox(event)">
+        <div class="close-lightbox">&times;</div>
+        <img class="lightbox-img" id="lightboxImg" src="" onclick="toggleZoom(event)">
+    </div>
+
     <script>
         // ==========================================
         // --- 核心功能：頁面切換與自動記憶 ---
@@ -602,7 +730,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             
             // 1. 恢復上次瀏覽的頁面
-            const lastPage = localStorage.getItem('last_visited_page');
+            const lastPage = localStorage.getItem('last_visited_page_fuk');
             if (lastPage) {
                 showPage(lastPage);
             } else {
@@ -610,7 +738,6 @@
             }
 
             // 2. 恢復「購物備忘錄」內容
-            // 使用 fukuoka_memo 避免與沖繩混淆
             const savedText = localStorage.getItem('fukuoka_memo');
             if (savedText) {
                 const memoBox = document.getElementById('shopMemo');
@@ -619,71 +746,57 @@
                 }
             }
 
-            // 3. ★★★ 新增：恢復「購物清單勾選」狀態 ★★★
-            // 使用 fukuoka_checks 避免與沖繩混淆
+            // 3. 恢復「購物清單勾選」狀態
             const savedChecks = JSON.parse(localStorage.getItem('fukuoka_checks'));
             if (savedChecks) {
                 const checkboxes = document.querySelectorAll('.shop-check');
                 checkboxes.forEach((cb, index) => {
-                    // 如果記憶體中這個位置是 true (有打勾)
                     if (savedChecks[index]) {
                         cb.checked = true;
-                        // 記得把外觀也變成「已購買」樣式
                         cb.closest('.shop-item').classList.add('bought');
                     }
                 });
             }
         });
 
-        // 2. 切換頁面函數 (已優化：支援自動記憶 + 自動亮起對應按鈕)
+        // 2. 切換頁面函數
         function showPage(pageId) {
-            // A. 隱藏所有內容頁面
             document.querySelectorAll('.page-section').forEach(page => {
                 page.classList.remove('active');
             });
             
-            // B. 顯示目標頁面 (加強防呆：確認 ID 存在才動作)
             const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.classList.add('active');
             }
 
-            // C. 處理左側選單的按鈕變色
             document.querySelectorAll('.menu-item').forEach(item => {
                 item.classList.remove('active');
-                // 這裡使用一個技巧：檢查按鈕的 onclick 屬性是否包含目標 pageId
-                // 這樣就算不是用手點的 (是重整後自動執行的)，按鈕也會亮起來
                 if (item.getAttribute('onclick').includes("'" + pageId + "'")) {
                     item.classList.add('active');
                 }
             });
             
-            // D. 捲動回最上方
             window.scrollTo(0, 0); 
-
-            // E. ★★★ 關鍵：把現在看的這一頁存起來 ★★★
-            localStorage.setItem('last_visited_page', pageId);
+            localStorage.setItem('last_visited_page_fuk', pageId);
         }
 
         // ==========================================
-        // --- 工具功能：匯率、購物、備忘錄 ---
+        // --- 工具功能 ---
         // ==========================================
 
-        // 匯率換算
+        // 匯率換算 (日幣)
         function convertCurrency(amount) {
-            // ★ 請確認匯率 (目前設為 0.20)
-            const rate = 0.20; 
+            const rate = 0.21; 
             const twd = Math.round(amount * rate);
             document.getElementById('twdResult').innerText = "NT$ " + twd;
         }
 
-        // 清除匯率輸入
         function clearCurrency() {
             document.getElementById('calcInput').value = '';
             document.getElementById('twdResult').innerText = "NT$ 0";
         }
 
-        // 購物清單勾選特效
         function toggleBought(checkbox) {
             const itemCard = checkbox.closest('.shop-item');
             if (checkbox.checked) {
@@ -692,7 +805,6 @@
                 itemCard.classList.remove('bought');
             }
             
-            // 儲存勾選狀態 (使用 fukuoka_checks)
             const checks = [];
             document.querySelectorAll('.shop-check').forEach(cb => {
                 checks.push(cb.checked);
@@ -700,9 +812,31 @@
             localStorage.setItem('fukuoka_checks', JSON.stringify(checks));
         }
 
-        // 備忘錄儲存 (打字時自動觸發)
         function saveMemo(text) {
             localStorage.setItem('fukuoka_memo', text);
+        }
+
+        // ==========================================
+        // --- 圖片燈箱功能 (Lightbox) ---
+        // ==========================================
+
+        function openImage(imgElement) {
+            const lightbox = document.getElementById('myLightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            lightboxImg.src = imgElement.src;
+            lightbox.style.display = 'flex';
+            lightboxImg.classList.remove('zoomed');
+        }
+
+        function closeLightbox(event) {
+            if (event.target.id === 'lightboxImg') return;
+            document.getElementById('myLightbox').style.display = 'none';
+        }
+
+        function toggleZoom(event) {
+            event.stopPropagation();
+            const img = document.getElementById('lightboxImg');
+            img.classList.toggle('zoomed');
         }
     </script>
 
