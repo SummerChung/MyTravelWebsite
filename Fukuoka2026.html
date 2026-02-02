@@ -108,8 +108,14 @@
     .back-home { color: #8C8279; text-decoration: none; display: block; margin-bottom: 15px; font-size: 0.9rem;}
     .back-home:hover { color: var(--accent-color); }
     
-    /* 行程時間軸 */
-    .timeline-item { display: flex; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+    /* --- 行程時間軸樣式 --- */
+    .timeline-item {
+        display: flex;
+        align-items: center; /* ★★★ 新增這行：讓左右兩欄垂直置中 ★★★ */
+        margin-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+    }
     .timeline-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
     .time-col { width: 60px; font-weight: bold; color: var(--accent-color); font-size: 0.9rem; flex-shrink: 0; }
     .event-col { flex: 1; }
@@ -313,6 +319,33 @@
         text-align: center;
         border-radius: 50%;
     }
+    /* ========================================= */
+    /* --- PDF 下載/預覽按鈕樣式 --- */
+    /* ========================================= */
+    .pdf-btn {
+        display: inline-flex;
+        align-items: center;
+        background-color: #fff0f0; /* 淡淡的粉紅色底 */
+        color: #c0392b;            /* 深紅色文字 */
+        border: 1px solid #e6b0aa; /* 邊框 */
+        padding: 6px 12px;
+        border-radius: 20px;       /* 圓角 */
+        font-size: 0.85rem;
+        text-decoration: none;
+        margin-top: 8px;           /* 與上方文字保持距離 */
+        transition: 0.2s;
+        font-weight: bold;
+    }
+    
+    .pdf-btn i {
+        margin-right: 6px;
+        font-size: 1rem;
+    }
+
+    .pdf-btn:active, .pdf-btn:hover {
+        background-color: #e6b0aa;
+        color: white;
+    }
 </style>
 </head>
 <body>
@@ -487,16 +520,6 @@
                             <span style="font-size:0.8rem; color:#999;">(點圖放大菜單)</span>
                         </div>
                 </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="time-col">18:00</div>
-                    <div class="event-col">
-                        <span class="event-title">
-                            晚餐：<a href="https://maps.app.goo.gl/o5UUQjnt7n1wPGJd6" target="_blank" class="event-link">博多水炊鍋専門 橙 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                        </span>
-                        <div class="event-desc">
-                            水炊鍋</div>
-                                                </div>
                     </div>
                 </div>
             </div>
@@ -511,6 +534,15 @@
             <div class="card">
                 <h2>🗓️ 行程內容</h2>
                 <div class="timeline-item">
+                    <div class="time-col">10:00</div>
+                    <div class="event-col">
+                        <span class="event-title">   
+                            景點：<a href="https://maps.app.goo.gl/5EkqpcburWWV4bk39" target="_blank" class="event-link">福岡麵包超人兒童博物館 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
+                        <div class="event-desc">客製化鑰匙圈</div>
+                    </div>
+                    </div>
+                    <div class="timeline-item">
                     <div class="time-col">12:00</div>
                     <div class="event-col">
                         <span class="event-title">   
@@ -518,6 +550,67 @@
                         </span>
                         <div class="event-desc">炸魚餅(炸蝦天婦羅)烏龍麵 ⚠️ 只收現金</div>
                     </div>
+                    </div>
+                <div class="timeline-item">
+                    <div class="time-col">13:33<br>
+                    末班車14:33</div>
+                    <div class="event-col">
+                        <span class="event-title">   
+                            去程上車點：<a href="https://maps.app.goo.gl/QzAgF8Zm1ZiJUfVz6" target="_blank" class="event-link">吳服町(福岡縣)岩 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
+                        <div class="event-desc">搭乘 「West Coast Liner (ウエストコーストライナー)」 高速巴士<br>
+                                    <a href="Fukuoka/Fukuoka_pdf/West_Coast_Liner_bus_schedule(20251001).pdf" target="_blank" class="pdf-btn">
+                <i class="fas fa-file-pdf"></i> 查看完整時刻表 (PDF)
+            </a></div>
+                    </div>
+                    </div>
+                <div class="timeline-item">
+                    <div class="time-col">14:37<br>
+                    末班車15:37</div>
+                    <div class="event-col">
+                        <span class="event-title">   
+                            去程下車點：<a href="https://maps.app.goo.gl/f6A4nT3oYHGuGS9q9" target="_blank" class="event-link">二見ヶ浦・PALMBEACH前 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
+                    </div>
+                     </div>
+                <div class="timeline-item">
+                    <div class="time-col">14:40</div>
+                    <div class="event-col">
+                        <span class="event-title">   
+                            景點：<a href="https://maps.app.goo.gl/SM5rSc5T2J9px5R57" target="_blank" class="event-link">糸島 二見浦夫婦岩 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
+                        <div class="event-desc">搭乘 「West Coast Liner (ウエストコーストライナー)」 高速巴士<br>
+上車地點： 天神 3 丁目 (飯店附近)，車程： 約 60 分鐘直達「二見浦 (Futamigaura)」下車</div>
+                    </div>
+                    </div>
+                <div class="timeline-item">
+                    <div class="time-col">16:32<br>
+                    末班車17:32</div>
+                    <div class="event-col">
+                        <span class="event-title">   
+                            回程上車點：<a href="https://maps.app.goo.gl/mKkgBeqedxcA6tJq7" target="_blank" class="event-link">二見ヶ浦・PALMBEACH前 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
+                        <div class="event-desc">搭乘 「West Coast Liner (ウエストコーストライナー)」 高速巴士</div>
+                    </div>
+                    </div>
+                <div class="timeline-item">
+                    <div class="time-col">17:24<br>
+                    末班車18:24</div>
+                    <div class="event-col">
+                        <span class="event-title">   
+                            回程下車點：<a href="https://maps.app.goo.gl/T15wQSEi2zGCnTUU6" target="_blank" class="event-link">天神四丁目 (Tenjin 4-Chome) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
+                    </div>
+                    </div>
+                <div class="timeline-item">
+                    <div class="time-col">19:00</div>
+                    <div class="event-col">
+                        <span class="event-title">
+                            晚餐：<a href="https://maps.app.goo.gl/o5UUQjnt7n1wPGJd6" target="_blank" class="event-link">博多水炊鍋専門 橙 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
+                        <div class="event-desc">
+                            水炊鍋</div>
+                         </div>
                 </div>
             </div>
         </div>
@@ -544,9 +637,9 @@
                     <div class="time-col">18:00</div>
                     <div class="event-col">
                         <span class="event-title">   
-                            晚餐：<a href="https://maps.app.goo.gl/R5LjLYaWeiKAQiKi6" target="_blank" class="event-link">博多牛腸鍋 前田屋 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            晚餐：<a href="https://maps.app.goo.gl/n9HhkXt82c5wrWee8" target="_blank" class="event-link">藥院燒肉 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                         </span>
-                        <div class="event-desc">牛腸鍋</div>
+                        <div class="event-desc">燒肉</div>
                     </div>
                 </div>
             </div>
