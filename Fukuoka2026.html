@@ -221,6 +221,8 @@
         border: 1px solid #eee;
         transition: 0.3s;
     }
+
+/* 圖片設定 (新增點擊放大提示) */
     .shop-img {
         width: 80px;
         height: 80px;
@@ -228,7 +230,11 @@
         object-fit: cover;
         background-color: #f0f0f0;
         flex-shrink: 0;
+        cursor: pointer; /* ★★★ 新增：讓游標變成手指，提示可點擊 ★★★ */
+        transition: 0.2s;
     }
+    .shop-img:active { transform: scale(0.95); opacity: 0.8; } /* 點擊時微縮小的回饋感 */
+
     .shop-info {
         flex: 1;
         padding-left: 15px;
@@ -828,7 +834,7 @@
             <!-- === 分類 2: 生活雜貨 === -->
             <div id="cat-life" class="shop-category-title"><i class="fas fa-home"></i> 生活雜貨 (範例)</div>
             <div class="shop-item">
-                <img src="Fukuoka/Fukuoka_shopping/item10.jpg" alt="商品圖片" class="shop-img">
+                <img src="Fukuoka/Fukuoka_shopping/item10.jpg" alt="商品圖片" class="shop-img" onclick="openImage(this)">
                 <div class="shop-info">
                     <div class="shop-name">sun-star AKELKEY 2WAY萬用開箱器</div>
                     <div class="shop-price">¥ ???</div>
@@ -841,7 +847,7 @@
             <div id="cat-drug" class="shop-category-title"><i class="fas fa-pills"></i> 藥妝 (範例)</div>
 
                 <div class="shop-item">
-                <img src="Fukuoka/Fukuoka_shopping/item1.webp" alt="商品圖片" class="shop-img">
+                <img src="Fukuoka/Fukuoka_shopping/item1.webp" alt="商品圖片" class="shop-img" onclick="openImage(this)">
                 <div class="shop-info">
                     <div class="shop-name">大正製藥：Pabron Gold A (パブロンゴールドA)</div>
                     <div class="shop-price">¥ ???</div>
@@ -851,7 +857,7 @@
             </div>
 
                 <div class="shop-item">
-                <img src="Fukuoka/Fukuoka_shopping/item7.jpg" alt="商品圖片" class="shop-img">
+                <img src="Fukuoka/Fukuoka_shopping/item7.jpg" alt="商品圖片" class="shop-img" onclick="openImage(this)">
                 <div class="shop-info">
                     <div class="shop-name">第一三共：Lulu Attack EX</div>
                     <div class="shop-price">12錠 ¥ 1,320 / 18錠 ¥ 1,760 / 24錠 ¥ 2,200</div>
@@ -861,7 +867,7 @@
             </div>
 
                  <div class="shop-item">
-                <img src="Fukuoka/Fukuoka_shopping/item8.webp" alt="商品圖片" class="shop-img">
+                <img src="Fukuoka/Fukuoka_shopping/item8.webp" alt="商品圖片" class="shop-img" onclick="openImage(this)">
                 <div class="shop-info">
                     <div class="shop-name">第一三共 Pelack T 錠 (ペラックT錠)</div>
                     <div class="shop-price">¥ 2,508</div>
@@ -871,7 +877,7 @@
             </div>
 
                  <div class="shop-item">
-                <img src="Fukuoka/Fukuoka_shopping/item9.jpg" alt="商品圖片" class="shop-img">
+                <img src="Fukuoka/Fukuoka_shopping/item9.jpg" alt="商品圖片" class="shop-img" onclick="openImage(this)">
                 <div class="shop-info">
                     <div class="shop-name">杏林製藥 Cool One 祛痰藥 (クールワン去たんソフトカプセル)</div>
                     <div class="shop-price">24粒 ¥ 1,540 / 48粒 ¥ 2,750</div>
@@ -881,7 +887,7 @@
             </div>
 
             <div class="shop-item">
-                <img src="Fukuoka/Fukuoka_shopping/item2.webp" alt="商品圖片" class="shop-img">
+                <img src="Fukuoka/Fukuoka_shopping/item2.webp" alt="商品圖片" class="shop-img" onclick="openImage(this)">
                 <div class="shop-info">
                     <div class="shop-name">資生堂 MOILIP 潤唇膏 口角炎滋潤修護藥用護唇膏 8g</div>
                     <div class="shop-price">¥ 958</div>
@@ -891,7 +897,7 @@
             </div>
 
                  <div class="shop-item">
-                <img src="Fukuoka/Fukuoka_shopping/item3.jpg" alt="商品圖片" class="shop-img">
+                <img src="Fukuoka/Fukuoka_shopping/item3.jpg" alt="商品圖片" class="shop-img" onclick="openImage(this)">
                 <div class="shop-info">
                     <div class="shop-name">小林制藥 KOBAYASHI 指緣角質硬化專用治療膏 5g</div>
                     <div class="shop-price">¥ 966</div>
@@ -901,7 +907,7 @@
             </div>
 
                  <div class="shop-item">
-                <img src="Fukuoka/Fukuoka_shopping/item5.jpg" alt="商品圖片" class="shop-img">
+                <img src="Fukuoka/Fukuoka_shopping/item5.jpg" alt="商品圖片" class="shop-img" onclick="openImage(this)">
                 <div class="shop-info">
                     <div class="shop-name">NARIS Nature Conc足部護理液40ml</div>
                     <div class="shop-price">¥ ???</div>
@@ -911,7 +917,7 @@
             </div>
 
               <div class="shop-item">
-                <img src="Fukuoka/Fukuoka_shopping/item6.jpg" alt="商品圖片" class="shop-img">
+                <img src="Fukuoka/Fukuoka_shopping/item6.jpg" alt="商品圖片" class="shop-img" onclick="openImage(this)">
                 <div class="shop-info">
                     <div class="shop-name">Revlon Kiss Sugar Scrub 去角質潤唇膏</div>
                     <div class="shop-price">¥ ???</div>
@@ -921,10 +927,20 @@
             </div>
 
             <div class="shop-item">
-                <img src="Fukuoka/Fukuoka_shopping/item4.webp" alt="商品圖片" class="shop-img">
+                <img src="Fukuoka/Fukuoka_shopping/item4.webp" alt="商品圖片" class="shop-img" onclick="openImage(this)">
                 <div class="shop-info">
                     <div class="shop-name">池田模範堂 MUHI HD 頭皮止癢濕疹治療藥 30ml</div>
                     <div class="shop-price">¥ 1,200</div>
+                    <div class="shop-loc">唐吉訶德</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
+
+                 <div class="shop-item">
+                <img src="Fukuoka/Fukuoka_shopping/item11.webp" alt="商品圖片" class="shop-img" onclick="openImage(this)">
+                <div class="shop-info">
+                    <div class="shop-name">Kowa El Pain Kowa α 生理痛專用藥 (24錠)</div>
+                    <div class="shop-price">¥ 1,800</div>
                     <div class="shop-loc">唐吉訶德</div>
                 </div>
                 <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
