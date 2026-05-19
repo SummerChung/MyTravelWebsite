@@ -374,6 +374,11 @@
         <div class="menu-item" onclick="showPage('shopping')">
             <i class="fas fa-shopping-cart"></i> <span>購物</span>
         </div>
+        </div>
+        <div class="menu-item" onclick="showPage('backup-food')">
+            <i class="fas fa-bookmark"></i> <span>備案</span>
+        </div>
+        </div>
         <div class="menu-item" onclick="showPage('money')">
             <i class="fas fa-calculator"></i> <span>匯率</span>
         </div>
@@ -569,9 +574,9 @@
                     <div class="time-col">11:00</div>
                     <div class="event-col">
                         <span class="event-title">
-                            午餐：<a href="https://maps.app.goo.gl/Fr3nA1aRHAtzYbSE8" target="_blank" class="event-link">鰻魚四代目菊川 中洲春吉店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                            午餐：<a href="https://maps.app.goo.gl/X3cbtQzTH7vA3nBQA" target="_blank" class="event-link">U.S. burger <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                         </span>
-                        <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-person-walking"></i>步行</span>16分鐘 1.1公里</div>
+                        <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-person-walking"></i>步行</span>7分鐘 500公尺</div>
                     </div>
                 </div>
                 
@@ -1083,6 +1088,80 @@
                     oninput="saveMemo(this.value)"
                     style="width: 100%; height: 200px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; line-height: 1.5; resize: none; box-sizing: border-box; background-color: #fafafa; color: #463F3A; font-family: inherit;"></textarea>
             </div>
+            </div>
+
+            <!-- ================= 備用餐廳清單 (新增) ================= -->
+        <div id="backup-food" class="page-section">
+            <div class="card">
+                <h1>🍽️ 備用餐廳名單</h1>
+                <p>行程異動、公休或客滿時的口袋名單</p>
+            </div>
+
+            <!-- === 類別 1: 麵食 / 輕食 === -->
+            <div class="shop-category-title"><i class="fas fa-utensils"></i> 主食</div>
+
+            <div class="shop-item">
+                <!-- ★ 這裡的資料夾名稱改為 Fukuoka2026_img (請確認您的實際資料夾名稱) -->
+                <img src="Fukuoka2026_img/food1.jpg" alt="餐廳圖片" class="shop-img" onclick="openImage(this)">
+                <div class="shop-info">
+                    <div class="shop-name">
+                        <a href="https://maps.app.goo.gl/..." target="_blank" class="event-link">
+                            一蘭拉麵 總本店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i>
+                        </a>
+                    </div>
+                    <!-- (已刪除預算欄位) -->
+                    <div class="shop-loc">
+                        <span class="transport-tag">中洲川端站</span> 24小時營業
+                    </div>
+                </div>
+            </div>
+
+            <div class="shop-item">
+                <img src="Fukuoka2026_img/food2.jpg" alt="餐廳圖片" class="shop-img" onclick="openImage(this)">
+                <div class="shop-info">
+                    <div class="shop-name">
+                        <a href="https://maps.app.goo.gl/..." target="_blank" class="event-link">
+                            ShinShin 豚骨拉麵 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i>
+                        </a>
+                    </div>
+                    <div class="shop-loc">
+                        <span class="transport-tag">天神站</span> 福岡超人氣名店
+                    </div>
+                </div>
+            </div>
+
+            <!-- === 類別 2: 燒肉 / 鍋物 === -->
+            <div class="shop-category-title"><i class="fas fa-fire"></i> 點心</div>
+
+            <div class="shop-item">
+                <img src="Fukuoka/Fukuoka_img/pancake.jpg" alt="餐廳圖片" class="shop-img" onclick="openImage(this)">
+                <div class="shop-info">
+                    <div class="shop-name">
+                        <a href="https://maps.app.goo.gl/2MHFQc8RxKao2L8A7" target="_blank" class="event-link">
+                            幸福pancake 福岡天神店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i>
+                        </a>
+                    </div>
+                    <div class="shop-loc">
+                        <span class="transport-tag">天神站</span> 幸福鬆餅
+                    </div>
+                </div>
+            </div>
+
+            <div class="shop-item">
+                <img src="Fukuoka2026_img/food4.jpg" alt="餐廳圖片" class="shop-img" onclick="openImage(this)">
+                <div class="shop-info">
+                    <div class="shop-name">
+                        <a href="https://maps.app.goo.gl/..." target="_blank" class="event-link">
+                            極味屋 漢堡排 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i>
+                        </a>
+                    </div>
+                    <div class="shop-loc">
+                        <span class="transport-tag">天神站</span> 鐵板自己烤，通常要排隊
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
         </div>
         <!-- 記帳與緊急頁面 -->
