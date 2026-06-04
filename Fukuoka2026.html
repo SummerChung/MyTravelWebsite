@@ -1438,7 +1438,7 @@
         <div id="money" class="page-section">
             <div class="card">
                 <h1>💰 簡易匯率換算</h1>
-                <p>輸入日幣，換算台幣 (以 0.21 計算)</p>
+                <p>輸入日幣，換算台幣 (以 0.2 計算)</p>
                 <div class="result-box" id="twdResult" style="background: #333; color: #0f0; padding: 15px; font-family: monospace; font-size: 1.5rem; text-align: right; border-radius: 5px; margin-bottom: 10px;">NT$ 0</div>
                 
                 <div style="display: flex; gap: 10px;">
@@ -1561,7 +1561,7 @@
 
         // 匯率換算 (日幣)
         function convertCurrency(amount) {
-            const rate = 0.21; 
+            const rate = 0.2; 
             const twd = Math.round(amount * rate);
             document.getElementById('twdResult').innerText = "NT$ " + twd;
         }
