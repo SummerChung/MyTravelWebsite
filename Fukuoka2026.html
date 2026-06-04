@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>福岡 4 天 3 夜快樂行</title>
-    <!-- 設定網頁圖示 (Favicon) - 使用飛機 Emoji -->
-    <!-- 設定網頁圖示 (Favicon) - 修正版：強制置中 -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text x=%2250%%22 y=%2250%%22 font-size=%2280%22 text-anchor=%22middle%22 dominant-baseline=%22central%22>🎂</text></svg>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -111,7 +109,7 @@
     /* --- 行程時間軸樣式 --- */
     .timeline-item {
         display: flex;
-        align-items: center; /* ★★★ 新增這行：讓左右兩欄垂直置中 ★★★ */
+        align-items: center; /* 左右垂直置中 */
         margin-bottom: 15px;
         border-bottom: 1px solid #eee;
         padding-bottom: 15px;
@@ -120,8 +118,7 @@
     .time-col { width: 60px; font-weight: bold; color: var(--accent-color); font-size: 0.9rem; flex-shrink: 0; }
     .event-col { flex: 1; }
     .event-title { font-weight: bold; color: #463F3A; margin-bottom: 5px; display: block; }
-    .event-desc { font-size: 0.85rem; color: #888; }
-    .transport-tag { display: inline-block; font-size: 0.7rem; padding: 2px 6px; background: #eee; border-radius: 4px; color: #666; margin-right: 5px; }
+    .event-desc { font-size: 0.85rem; color: #666; font-weight: bold; line-height: 1.5; }    .transport-tag { display: inline-block; font-size: 0.7rem; padding: 2px 6px; background: #eee; border-radius: 4px; color: #666; margin-right: 5px; }
 
     /* 超連結樣式 */
     .event-link {
@@ -144,13 +141,76 @@
     .airline-name { display: block; font-size: 0.75rem; color: #999; margin-bottom: 2px; }
     .flight-code { font-size: 1.3rem; color: var(--accent-color); font-weight: bold; }
 
-    /* 手機版樣式修正 */
+    /* ========================================= */
+    /* --- 折疊式分支行程專用樣式 (新增) --- */
+    /* ========================================= */
+    .branch-container {
+        display: flex; 
+        flex-direction: column; 
+        gap: 15px; 
+        margin-left: 15px; 
+        margin-bottom: 20px; 
+        padding-left: 15px; 
+        border-left: 2px dashed #ddd;
+    }
+    .branch-details {
+        border-radius: 8px; 
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        overflow: hidden;
+        transition: 0.3s;
+    }
+    /* 折疊標題列 */
+    .branch-details summary {
+        padding: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        list-style: none; /* 隱藏瀏覽器預設的黑色小三角形 */
+        outline: none;
+    }
+    .branch-details summary::-webkit-details-marker {
+        display: none; /* 針對 Safari 隱藏預設三角形 */
+    }
+    /* 展開後的內部內容區塊 */
+    .branch-details .branch-content {
+        padding: 0 15px 15px 15px;
+        border-top: 1px dashed rgba(0,0,0,0.1);
+        margin-top: 5px;
+        padding-top: 15px;
+    }
+    /* 右側箭頭動畫 */
+    .branch-details .toggle-icon {
+        transition: transform 0.3s ease;
+        color: #999;
+    }
+    /* 展開時箭頭旋轉 180 度 */
+    .branch-details[open] .toggle-icon {
+        transform: rotate(180deg);
+        color: inherit;
+    }
+
+    /* ★ 手機版樣式修正 ★ */
     @media screen and (max-width: 450px) {
         .flight-route { font-size: 1.15rem !important; }
         .city-name { font-size: 0.7rem !important; margin-left: 3px !important; }
         .flight-code { font-size: 1.15rem !important; }
         .card { padding: 15px !important; }
         .weather-container { max-width: 280px; margin: 0 auto; }
+
+        /* 針對分支行程空間減壓 */
+        .branch-container {
+            margin-left: 5px !important;    
+            padding-left: 10px !important;  
+            gap: 10px !important;
+        }
+        .branch-details summary {
+            padding: 12px 10px !important;
+        }
+        .branch-details .branch-content {
+            padding: 0 10px 12px 10px !important;
+        }
     }
 
     /* 緊急按鈕樣式 */
@@ -222,7 +282,7 @@
         transition: 0.3s;
     }
 
-/* 圖片設定 (新增點擊放大提示) */
+    /* 圖片設定 (新增點擊放大提示) */
     .shop-img {
         width: 80px;
         height: 80px;
@@ -230,10 +290,10 @@
         object-fit: cover;
         background-color: #f0f0f0;
         flex-shrink: 0;
-        cursor: pointer; /* ★★★ 新增：讓游標變成手指，提示可點擊 ★★★ */
+        cursor: pointer;
         transition: 0.2s;
     }
-    .shop-img:active { transform: scale(0.95); opacity: 0.8; } /* 點擊時微縮小的回饋感 */
+    .shop-img:active { transform: scale(0.95); opacity: 0.8; }
 
     .shop-info {
         flex: 1;
@@ -261,16 +321,16 @@
 
    /* 1. 行程裡的小縮圖 (修正版：強制固定大小) */
     .menu-thumb {
-        width: 150px !important;     /* 強制寬度 150px，不讓它變成 100% */
-        height: 100px !important;    /* 強制高度 100px */
-        object-fit: cover;           /* 保持比例裁切，不會變形 */
+        width: 150px !important;
+        height: 100px !important;
+        object-fit: cover;
         border-radius: 8px;
         cursor: pointer;
         margin-top: 10px;
-        border: 1px solid #ccc;      /* 加個細邊框比較好看 */
+        border: 1px solid #ccc;
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         transition: 0.2s;
-        display: block;              /* 讓圖片自己佔一行，或是用 inline-block */
+        display: block;
     }
     .menu-thumb:active { transform: scale(0.95); opacity: 0.8; }
 
@@ -304,7 +364,7 @@
     .lightbox-img.zoomed {
         max-width: none;
         max-height: none;
-        width: 250%; /* 強制放大 2.5 倍 */
+        width: 250%;
         cursor: zoom-out;
     }
 
@@ -325,20 +385,21 @@
         text-align: center;
         border-radius: 50%;
     }
+
     /* ========================================= */
     /* --- PDF 下載/預覽按鈕樣式 --- */
     /* ========================================= */
     .pdf-btn {
         display: inline-flex;
         align-items: center;
-        background-color: #fff0f0; /* 淡淡的粉紅色底 */
-        color: #c0392b;            /* 深紅色文字 */
-        border: 1px solid #e6b0aa; /* 邊框 */
+        background-color: #fff0f0;
+        color: #c0392b;
+        border: 1px solid #e6b0aa;
         padding: 6px 12px;
-        border-radius: 20px;       /* 圓角 */
+        border-radius: 20px;
         font-size: 0.85rem;
         text-decoration: none;
-        margin-top: 8px;           /* 與上方文字保持距離 */
+        margin-top: 8px;
         transition: 0.2s;
         font-weight: bold;
     }
@@ -374,10 +435,8 @@
         <div class="menu-item" onclick="showPage('shopping')">
             <i class="fas fa-shopping-cart"></i> <span>購物</span>
         </div>
-        </div>
         <div class="menu-item" onclick="showPage('backup-food')">
             <i class="fas fa-bookmark"></i> <span>備案</span>
-        </div>
         </div>
         <div class="menu-item" onclick="showPage('money')">
             <i class="fas fa-calculator"></i> <span>匯率</span>
@@ -418,13 +477,13 @@
                     <div class="flight-number-box"><span class="airline-name">AirAsia</span><span class="flight-code">AK 1510</span></div>
                 </div>
                 <div class="flight-box">
-                    <div class="info-group"><span class="info-label">起飛</span><span class="info-value">12:00</span></div>
+                    <div class="info-group"><span class="info-label">起飛</span><span class="info-value">09:55</span></div>
                     <!-- 飛行時間 -->
                     <div class="info-group" style="text-align: center;">
                         <span class="info-label">飛行時間</span>
                         <span class="info-value" style="font-size: 1rem;">2h 20m</span>
                     </div>
-                    <div class="info-group" style="text-align: right;"><span class="info-label">抵達</span><span class="info-value">15:20</span></div>
+                    <div class="info-group" style="text-align: right;"><span class="info-label">抵達</span><span class="info-value">13:15</span></div>
                 </div>
                 <div class="flight-box">
                     <div class="info-group"><span class="info-label">座位</span><span class="info-value">21A, 21B</span></div>
@@ -475,11 +534,8 @@
                         3.抵達國內線: 依照指示搭乘電扶梯到 B1，即可到達地下鐵「福岡機場站」。<br>
                         搭乘往「筑前前原」或「唐津」方向的列車，坐 5 站（約 11 分鐘）
 
-                        <!-- ★★★ 新增：可點擊放大的參考圖 ★★★ -->
-    <!-- class="menu-thumb" 會讓它變成漂亮的小縮圖 -->
-    <!-- onclick="openImage(this)" 就是呼叫放大燈箱的咒語 -->
-    <img src="Fukuoka/Fukuoka_img/fukuoka_airport.png" class="menu-thumb" onclick="openImage(this)">
-    <span style="font-size:0.8rem; color:#888; display:block; margin-top:5px;">(點圖放大查看指引)</span>
+                    <img src="Fukuoka/Fukuoka_img/fukuoka_airport.png" class="menu-thumb" onclick="openImage(this)">
+                    <span style="font-size:0.8rem; color:#888; display:block; margin-top:5px;">(點圖放大查看指引)</span>
                 </div>
                 <div class="timeline-item">
                     <div class="time-col">09:00</div>
@@ -507,7 +563,7 @@
                         <span class="event-title">入境 / 領取行李</span>
                         <div class="event-desc">福岡機場</div>
                     </div>
-                    </div>
+                </div>
                 <div class="timeline-item">
                     <div class="time-col">16:00</div>
                     <div class="event-col">
@@ -516,10 +572,10 @@
                         </span>
                         <div class="event-desc">📝 Ice Matcha Latte、Ice Hojicha Latte（No Suger and Less ice）<br>
                             <!-- 這裡加入菜單圖片 -->
-                    <img src="Fukuoka/Fukuoka_img/menu_TheMarchaTokyo.jpg" class="menu-thumb" onclick="openImage(this)">
+                            <img src="Fukuoka/Fukuoka_img/menu_TheMarchaTokyo.jpg" class="menu-thumb" onclick="openImage(this)">
                             <span style="font-size:0.8rem; color:#999;">(點圖放大菜單)</span>
                         </div>
-                        </div>
+                    </div>
                 </div>
                 <div class="timeline-item">
                     <div class="time-col">16:30</div>
@@ -536,40 +592,41 @@
                         </span>
                         <div class="event-desc">Check-in 飯店大廳在2F</div>
                     </div>
-                    </div>
-                    <div class="timeline-item">
+                </div>
+                <div class="timeline-item">
                     <div class="time-col">18:30</div>
                     <div class="event-col">
                         <span class="event-title">
                             晚餐：<a href="https://maps.app.goo.gl/RpmoGKuhhKYrCiM19" target="_blank" class="event-link">大名黑豚吉列豬扒 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
                         <div class="event-desc">
                             「黑豚 特ロースかつ御膳 (200g)」➔ 2,300円「肉食油脂愛好者」<br>
                             「黑豚 シャトーブリアン ヒレかつ御膳 (140g)」➔ 3,000円「追致軟嫩、不膩口」<br>
-                        ※點餐機只收一千面額鈔票</div>
-                </div>
+                            ※點餐機只收一千面額鈔票
                         </div>
-                    <div class="timeline-item">
+                    </div>
+                </div>
+                <div class="timeline-item">
                     <div class="time-col">21:00</div>
                     <div class="event-col">
                         <span class="event-title">
-                            消夜：<a href="https://maps.app.goo.gl/wjy6TxXJxHn8kcqB9" target="_blank" class="event-link">Kawaya Gion（かわ屋 祇園店）かわ屋 祇園店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                        <div class="event-desc">
-                            烤雞皮*10</div>
-                </div>
+                            消夜：<a href="https://maps.app.goo.gl/wjy6TxXJxHn8kcqB9" target="_blank" class="event-link">Kawaya Gion（かわ屋 祇園店） <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                        </span>
+                        <div class="event-desc">烤雞皮*10</div>
                     </div>
                 </div>
             </div>
         </div>
 
-       <!-- ================= Day 2 ================= -->
+        <!-- ================= Day 2 ================= -->
         <div id="day2" class="page-section">
             <div class="card">
                 <h1>Day 2: 06/19 (五)</h1>
-                <p>生日快樂！🥳</p>
+                <p>🧸 生日快樂！🥳</p>
             </div>
             <div class="card">
                 <h2>🗓️ 行程內容</h2>
-                     <div class="tip-box" style="margin-bottom: 20px; margin-top:0;">
+                <div class="tip-box" style="margin-bottom: 20px; margin-top:0;">
                     <span class="tip-title">💡 交通小撇步</span>
                         方案A：<br>
                         「West Coast Liner (ウエストコーストライナー)」 高速巴士<br>
@@ -577,7 +634,7 @@
                         2.去程末班車14:42。<br>
                         3.回程末班車17:31。<br>
                 </div>
-                    <!-- ================= 1. 共同行程 (早上) ================= -->
+                <!-- ================= 1. 共同行程 (早上) ================= -->
                 <div class="timeline-item">
                     <div class="time-col">11:30</div>
                     <div class="event-col">
@@ -597,345 +654,333 @@
                     </div>
                 </div>
                 
-                <!-- 把這一項的底線拿掉，準備進入分支 -->
+                <!-- 準備進入分支 -->
                 <div class="timeline-item" style="border-bottom: none;">
                     <div class="time-col">12:30</div>
                     <div class="event-col">
                         <span class="event-title">抵達分岔點</span>
-                        <div class="event-desc">視天氣與體力，決定接下來的行程：</div>
+                        <div class="event-desc">視天氣與體力，決定接下來的行程（點擊下方展開）：</div>
                     </div>
                 </div>
 
-                <!-- ================= 🌟 A / B /C /D方案分歧點 開始 ================= -->
-                <!-- 這邊加了一條左側虛線，視覺上像是一個「繞路」的支線 -->
-                <div style="display: flex; flex-direction: column; gap: 15px; margin-left: 15px; margin-bottom: 20px; padding-left: 15px; border-left: 2px dashed #ddd;">
+                <!-- ================= 🌟 A / B / C / D方案分歧點 開始 ================= -->
+                <div class="branch-container">
                     
-                    <!-- 🅰️ 方案 A (有自己獨立的時間) -->
-                    <div style="background: #fffaf0; border-left: 4px solid var(--accent-color); border-radius: 8px; padding: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                        <span style="font-weight: bold; color: var(--accent-color); display: block; margin-bottom: 10px;">
-                            <i class="fas fa-sun"></i> 方案 A：天氣好去戶外 - 糸島白色鳥居
-                        </span>
-                        <!-- A方案行程 1 -->
-                         <div class="timeline-item" style="border-bottom: 1px dashed #ebdcd0; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">12:30</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    去程上車點：<a href="https://maps.app.goo.gl/Lj7SwZVSvb6jrRZH9" target="_blank" class="event-link">Tenjin Minami(bus) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
-                                <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i>巴士</span>302、55（天神北（バス）下車）</div>
+                    <!-- Best plan -->
+                 <details open class="branch-details" style="background: #fffaf0; border-left: 4px solid var(--accent-color);">                        <summary style="color: #7f8c8d;">
+                            <span><i class="fa-solid fa-crown"></i> Best plan</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </summary>
+                        <div class="branch-content">
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">12:30</div>
+                                <div class="event-col">
+                                    <span class="event-title">搭乘七隈線：<a href="#" class="event-link">天神南 → 六本松</a></span>
+                                   <div class="event-desc">步行800公尺 12分鐘</div>
+                                </div>
                             </div>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">14:00</div>
+                                <div class="event-col">
+                                    <span class="event-title">下午茶：<a href="#" class="event-link">&LOCALS 大濠公園</a></span>
+                                    <div class="event-desc">📝 茶包</div>
+                                </div>
                             </div>
-                        <div class="timeline-item" style="border-bottom: 1px dashed #ebdcd0; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">12:42</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    轉乘：<a href="https://maps.app.goo.gl/bHiJRQxrCEG5A3Bw8" target="_blank" class="event-link">天神三丁目(福岡縣) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
-                                <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i>高速巴士</span>West Coast Liner (ウエストコーストライナー) ¥1,150</div>
-                        <a href="Fukuoka/Fukuoka_pdf/West_Coast_Liner_bus_schedule(20251001).pdf" target="_blank" class="pdf-btn">
-                <i class="fas fa-file-pdf"></i> 查看完整時刻表 (PDF)
-            </a></div>
-                        </div>
-                        <!-- A方案行程 2 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #ebdcd0; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">13:39</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    去程下車點：<a href="https://maps.app.goo.gl/ZD46URw8kHQCxGGH6" target="_blank" class="event-link">二見ヶ浦・月と太陽糸島茶房前 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">15:50</div>
+                                <div class="event-col">
+                                    <span class="event-title">點心：<a href="#" class="event-link">Jacques 大濠店</a></span>
+                                    <div class="event-desc">🎂 買小蛋糕去鳥居！</div>
+                                </div>
                             </div>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">16:00</div>
+                                <div class="event-col">
+                                    <span class="event-title">搭乘機場線：<a href="#" class="event-link">大濠公園 → 下山門</a></span>
+                                    <div class="event-desc">步行550公尺 7分鐘</div>
+                                </div>
                             </div>
-                        <!-- A方案行程 3 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #ebdcd0; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">14:00</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    景點：<a href="https://maps.app.goo.gl/6pCaLVQ3asvQCyQ58" target="_blank" class="event-link">⛩️ 櫻井神社 二見ヶ浦 海中大鳥居 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">16:30</div>
+                                <div class="event-col">
+                                    <span class="event-title">景點：<a href="#" class="event-link">壱岐神社 一の鳥居</a></span>
+                                </div>
                             </div>
-                          </div>
-                        <!-- A方案行程 4 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #ebdcd0; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">15:31</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    回程上車點：<a href="https://maps.app.goo.gl/mKkgBeqedxcA6tJq7" target="_blank" class="event-link">二見ヶ浦・月と太陽糸島茶房前 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
-                                <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i>高速巴士</span>West Coast Liner (ウエストコーストライナー) ¥1,150</div>
-                            </div>
-                            </div>
-                        <!-- A方案行程 5 -->
-                        <div class="timeline-item" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
-                            <div class="time-col">16:31</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    回程下車點：<a href="https://maps.app.goo.gl/T15wQSEi2zGCnTUU6" target="_blank" class="event-link">天神四丁目 (Tenjin 4-Chome) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
-                                <div class="event-desc"><span class="transport-tag"><i class="fas fa-train"></i> 地下鐵</span>天神站 → 大濠公園站 ¥210</div>
+                            <div class="timeline-item" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+                                <div class="time-col">18:00</div>
+                                <div class="event-col">
+                                    <span class="event-title">搭乘筑肥線：<a href="#" class="event-link">下山門 → 大濠公園</a></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </details>
 
-                    <!-- 🅱️ 方案 B (也有自己獨立的時間) -->
-                    <div style="background: #f8f9f9; border-left: 4px solid #95a5a6; border-radius: 8px; padding: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                        <span style="font-weight: bold; color: #7f8c8d; display: block; margin-bottom: 10px;">
-                            <i class="fas fa-umbrella"></i> 方案 B：下雨去室內 - 福岡塔
-                        </span>
-                        <!-- B方案行程 1 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">12:30</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                去程上車點：<a href="https://maps.app.goo.gl/Lj7SwZVSvb6jrRZH9" target="_blank" class="event-link">Tenjin Minami(bus) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                            <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i> 巴士</span>No.44、151、152、204、302、305、312、W1、W2</div>
-                                <span>
+                    <!-- 🅰️ 方案 A -->
+                    <details class="branch-details" style="background: #ffffff; border-left: 4px solid #95a5a6;">
+                        <summary style="color: var(--accent-color);">
+                            <span><i class="fas fa-sun"></i> 方案 A：天氣好去戶外 - 糸島白色鳥居</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </summary>
+                        <div class="branch-content">
+                            <div class="timeline-item" style="border-bottom: 1px dashed #ebdcd0; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">12:30</div>
+                                <div class="event-col">
+                                    <span class="event-title">
+                                        去程上車點：<a href="https://maps.app.goo.gl/Lj7SwZVSvb6jrRZH9" target="_blank" class="event-link">Tenjin Minami(bus) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                                    </span>
+                                    <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i>巴士</span>302、55 (天神北下車)</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #ebdcd0; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">12:42</div>
+                                <div class="event-col">
+                                    <span class="event-title">
+                                        轉乘：<a href="https://maps.app.goo.gl/bHiJRQxrCEG5A3Bw8" target="_blank" class="event-link">天神三丁目 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                                    </span>
+                                    <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i>高速巴士</span>West Coast Liner ¥1,150</div>
+                                    <a href="Fukuoka/Fukuoka_pdf/West_Coast_Liner_bus_schedule(20251001).pdf" target="_blank" class="pdf-btn">
+                                        <i class="fas fa-file-pdf"></i> 時刻表
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #ebdcd0; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">13:39</div>
+                                <div class="event-col">
+                                    <span class="event-title">
+                                        去程下車點：<a href="https://maps.app.goo.gl/ZD46URw8kHQCxGGH6" target="_blank" class="event-link">糸島茶房前 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #ebdcd0; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">14:00</div>
+                                <div class="event-col">
+                                    <span class="event-title">
+                                        景點：<a href="https://maps.app.goo.gl/6pCaLVQ3asvQCyQ58" target="_blank" class="event-link">⛩️ 海中大鳥居 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #ebdcd0; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">15:31</div>
+                                <div class="event-col">
+                                    <span class="event-title">
+                                        回程上車點：<a href="https://maps.app.goo.gl/mKkgBeqedxcA6tJq7" target="_blank" class="event-link">同去程下車點 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                                    </span>
+                                    <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i>高速巴士</span>West Coast Liner ¥1,150</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+                                <div class="time-col">16:31</div>
+                                <div class="event-col">
+                                    <span class="event-title">
+                                        回程下車點：<a href="https://maps.app.goo.gl/T15wQSEi2zGCnTUU6" target="_blank" class="event-link">天神四丁目 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
+                                    </span>
+                                    <div class="event-desc"><span class="transport-tag"><i class="fas fa-train"></i> 地下鐵</span>天神站 → 大濠公園站 ¥210</div>
+                                </div>
                             </div>
                         </div>
-                        <!-- B方案行程 2 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">13:00</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    去程下車點：<a href="https://maps.app.goo.gl/3Bny7f5kbR35DRrU6" target="_blank" class="event-link">Fukuoka Tower(TNC Hoso Kaikan)(bus) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
+                    </details>
+
+                    <!-- 🅱️ 方案 B -->
+                    <details class="branch-details" style="background: #f8f9f9; border-left: 4px solid #95a5a6;">
+                        <summary style="color: #7f8c8d;">
+                            <span><i class="fas fa-umbrella"></i> 方案 B：下雨去室內 - 福岡塔</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </summary>
+                        <div class="branch-content">
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">12:30</div>
+                                <div class="event-col">
+                                    <span class="event-title">
+                                    去程上車點：<a href="https://maps.app.goo.gl/Lj7SwZVSvb6jrRZH9" target="_blank" class="event-link">Tenjin Minami</a>
+                                    </span>
+                                    <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i> 巴士</span>No.44、151...</div>
+                                </div>
                             </div>
-                          </div>
-                        <!-- B方案行程 3 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">15:00</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    景點：<a href="https://maps.app.goo.gl/hU4H5gsVvjF2n1Ce8" target="_blank" class="event-link">福岡タワー <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">13:00</div>
+                                <div class="event-col">
+                                    <span class="event-title">
+                                        去程下車點：<a href="https://maps.app.goo.gl/3Bny7f5kbR35DRrU6" target="_blank" class="event-link">Fukuoka Tower</a>
+                                    </span>
+                                </div>
                             </div>
-                             </div>
-                        <!-- B方案行程 4 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">15:30</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    回程上車點：<a href="https://maps.app.goo.gl/QYG5KR3V4M7RFSYC9" target="_blank" class="event-link">Hakubutsukan Kitaguchi(bus) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
-                                <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i> 巴士</span>No.15、6-1</div>
-                                <span>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">15:00</div>
+                                <div class="event-col">
+                                    <span class="event-title">
+                                        景點：<a href="https://maps.app.goo.gl/hU4H5gsVvjF2n1Ce8" target="_blank" class="event-link">福岡タワー</a>
+                                    </span>
+                                </div>
                             </div>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">15:30</div>
+                                <div class="event-col">
+                                    <span class="event-title">
+                                        回程上車點：<a href="https://maps.app.goo.gl/QYG5KR3V4M7RFSYC9" target="_blank" class="event-link">Hakubutsukan</a>
+                                    </span>
+                                    <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i> 巴士</span>No.15、6-1</div>
+                                </div>
                             </div>
-                        <!-- B方案行程 5 -->
-                        <div class="timeline-item" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
-                            <div class="time-col">16:00</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    回程下車點：<a href="https://maps.app.goo.gl/5W4wfmRM2uFsKiDCA" target="_blank" class="event-link">Jigyo(bus) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
-                            </div>
-                        </div>
-                          </div>
-                          <!-- C 方案  (也有自己獨立的時間) -->
-                    <div style="background: #f3f4fb; border-left: 4px solid #95a5a6; border-radius: 8px; padding: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                        <span style="font-weight: bold; color: #7f8c8d; display: block; margin-bottom: 10px;">
-                            <i class="fa-brands fa-earlybirds"></i> 方案 C：B Plus
-                        </span>
-                        <!-- C方案行程 1 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">12:30</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                去程上車點：<a href="https://maps.app.goo.gl/Lj7SwZVSvb6jrRZH9" target="_blank" class="event-link">Tenjin Minami(bus) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                            <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i> 巴士</span>No.44、151、152、204、302、305、312、W1、W2</div>
-                                <span>
+                            <div class="timeline-item" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+                                <div class="time-col">16:00</div>
+                                <div class="event-col">
+                                    <span class="event-title">
+                                        回程下車點：<a href="https://maps.app.goo.gl/5W4wfmRM2uFsKiDCA" target="_blank" class="event-link">Jigyo</a>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                        <!-- C方案行程 2 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">13:00</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    去程下車點：<a href="https://maps.app.goo.gl/3Bny7f5kbR35DRrU6" target="_blank" class="event-link">Fukuoka Tower(TNC Hoso Kaikan)(bus) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
+                    </details>
+
+                    <!-- 方案 C -->
+                    <details class="branch-details" style="background: #f3f4fb; border-left: 4px solid #95a5a6;">
+                        <summary style="color: #7f8c8d;">
+                            <span><i class="fa-brands fa-earlybirds"></i> 方案 C：B Plus</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </summary>
+                        <div class="branch-content">
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">12:30</div>
+                                <div class="event-col">
+                                    <span class="event-title">去程上車點：<a href="#" class="event-link">Tenjin Minami</a></span>
+                                    <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i> 巴士</span>多線可達</div>
+                                </div>
                             </div>
-                          </div>
-                        <!-- C方案行程 3 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">15:00</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    景點：<a href="https://maps.app.goo.gl/hU4H5gsVvjF2n1Ce8" target="_blank" class="event-link">福岡タワー <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">13:00</div>
+                                <div class="event-col">
+                                    <span class="event-title">去程下車點：<a href="#" class="event-link">Fukuoka Tower</a></span>
+                                </div>
                             </div>
-                             </div>
-                        <!-- C方案行程 4 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">15:30</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    去程上車點：<a href="https://maps.app.goo.gl/aikJpFTcBrtiptwc6" target="_blank" class="event-link">Fukuoka Tower Minamiguchi(bus) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
-                                <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i> 巴士</span>No.306</div>
-                                <span>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">15:00</div>
+                                <div class="event-col">
+                                    <span class="event-title">景點：<a href="#" class="event-link">福岡タワー</a></span>
+                                </div>
                             </div>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">15:30</div>
+                                <div class="event-col">
+                                    <span class="event-title">去程上車點：<a href="#" class="event-link">Minamiguchi</a></span>
+                                </div>
                             </div>
-                        <!-- C方案行程 5 -->
-                             <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">16:00</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    去程下車點：<a href="https://maps.app.goo.gl/JaqRmkXWg4dFMZZw7" target="_blank" class="event-link">Fujisaki(bus) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
-                                 <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i> 地下鐵</span>藤崎（福岡）→下山門</div>
-                                <span>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">16:00</div>
+                                <div class="event-col">
+                                    <span class="event-title">去程下車點：<a href="#" class="event-link">Fujisaki</a></span>
+                                    <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i> 地下鐵</span>藤崎 → 下山門</div>
+                                </div>
                             </div>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">16:10</div>
+                                <div class="event-col">
+                                    <span class="event-title">景點：<a href="#" class="event-link">壱岐神社 一の鳥居</a></span>
+                                </div>
                             </div>
-                        <!-- C方案行程 6 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">16:10</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    景點：<a href="https://maps.app.goo.gl/k3TAo26pcX8t4zdr9" target="_blank" class="event-link">壱岐神社 一の鳥居 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
-                            </div>
-                               </div>
-                        <!-- C方案行程 7 -->
-                        <div class="timeline-item" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
-                            <div class="time-col">16:30</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    搭乘筑肥線：<a href="https://maps.app.goo.gl/aikJpFTcBrtiptwc6" target="_blank" class="event-link">搭乘空港線：博多站 → 大濠公園 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
-                                <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i> 地下鐵</span></div>
-                                <span>
-                                    </div>
-                        </div>
-                          </div>
-                          <!-- D 方案  (也有自己獨立的時間) -->
-                    <div style="background: #ffffff; border-left: 4px solid #95a5a6; border-radius: 8px; padding: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                        <span style="font-weight: bold; color: #7f8c8d; display: block; margin-bottom: 10px;">
-                            <i class="fa-brands fa-earlybirds"></i> 方案 D：D Pro
-                        </span>
-                        <!-- D方案行程 1 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">12:30</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                去程上車點：<a href="https://maps.app.goo.gl/Lj7SwZVSvb6jrRZH9" target="_blank" class="event-link">Tenjin Minami(bus) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                            </span>
-                            <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i> 巴士</span>No.44、151、152、204、302、305、312、W1、W2</div>
-                                <span>
+                            <div class="timeline-item" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+                                <div class="time-col">16:30</div>
+                                <div class="event-col">
+                                    <span class="event-title">搭乘空港線：<a href="#" class="event-link">博多站 → 大濠公園</a></span>
+                                </div>
                             </div>
                         </div>
-                        <!-- D方案行程 2 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">13:00</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    去程下車點：<a href="https://maps.app.goo.gl/3Bny7f5kbR35DRrU6" target="_blank" class="event-link">Fukuoka Tower(TNC Hoso Kaikan)(bus) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
+                    </details>
+
+                    <!-- 方案 D -->
+                    <details class="branch-details" style="background: #ffffff; border-left: 4px solid #95a5a6;">
+                        <summary style="color: #7f8c8d;">
+                            <span><i class="fa-solid fa-otter"></i> 方案 D：B Pro</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </summary>
+                        <div class="branch-content">
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">12:30</div>
+                                <div class="event-col">
+                                    <span class="event-title">去程上車點：<a href="#" class="event-link">Tenjin Minami</a></span>
+                                </div>
                             </div>
-                          </div>
-                        <!-- D方案行程 3 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">14:30</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    景點：<a href="https://maps.app.goo.gl/hU4H5gsVvjF2n1Ce8" target="_blank" class="event-link">福岡タワー <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">13:00</div>
+                                <div class="event-col">
+                                    <span class="event-title">去程下車點：<a href="#" class="event-link">Fukuoka Tower</a></span>
+                                </div>
                             </div>
-                             </div>
-                        <!-- D方案行程 4 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">15:00</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    去程上車點：<a href="https://maps.app.goo.gl/Xjcy6MHXsGTSWQ8g6" target="_blank" class="event-link">Hakubutsukan Kitaguchi(bus) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
-                                <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i> 巴士</span>No.4</div>
-                                <span>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">14:30</div>
+                                <div class="event-col">
+                                    <span class="event-title">景點：<a href="#" class="event-link">福岡タワー</a></span>
+                                </div>
                             </div>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">15:00</div>
+                                <div class="event-col">
+                                    <span class="event-title">去程上車點：<a href="#" class="event-link">Kitaguchi</a></span>
+                                </div>
                             </div>
-                        <!-- D方案行程 5 -->
-                             <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">15:15</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    去程下車點：<a href="https://maps.app.goo.gl/vjiqsXHqu9vWZ9PW8" target="_blank" class="event-link">Kuromon(bus) <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">15:15</div>
+                                <div class="event-col">
+                                    <span class="event-title">去程下車點：<a href="#" class="event-link">Kuromon</a></span>
+                                </div>
                             </div>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">15:30</div>
+                                <div class="event-col">
+                                    <span class="event-title">下午茶：<a href="#" class="event-link">&LOCALS 大濠公園</a></span>
+                                    <div class="event-desc">📝 茶包</div>
+                                </div>
                             </div>
-                      <!-- D方案行程 6 -->
-                <div class="timeline-item">
-                    <div class="time-col">15:30</div>
-                    <div class="event-col">
-                        <span class="event-title">   
-                            下午茶：<a href="https://maps.app.goo.gl/nnqcRGekk7fdtoP8A" target="_blank" class="event-link">&LOCALS 大濠公園 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                        </span>
-                        <div class="event-desc">📝 茶包</div>
-                    </div>
-                    </div>
-                        <!-- D方案行程 7 -->
-                     <div class="timeline-item">
-                    <div class="time-col">15:50</div>
-                    <div class="event-col">
-                        <span class="event-title">
-                            點心：<a href="https://maps.app.goo.gl/N1MGn2AUNShxz3G98" target="_blank" class="event-link">Jacques 大濠店 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                        </span>
-                        <div class="event-desc">🎂 買小蛋糕去鳥居！</div>
-                    </div>
-                    </div>
-                             <!-- D方案行程 8 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">16:00</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    搭乘筑肥線：<a href="https://maps.app.goo.gl/aikJpFTcBrtiptwc6" target="_blank" class="event-link">搭乘空港線：大濠公園 → 博多站 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
-                                <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i> 地下鐵</span></div>
-                                <span>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">15:50</div>
+                                <div class="event-col">
+                                    <span class="event-title">點心：<a href="#" class="event-link">Jacques 大濠店</a></span>
+                                    <div class="event-desc">🎂 買小蛋糕去鳥居！</div>
+                                </div>
                             </div>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">16:00</div>
+                                <div class="event-col">
+                                    <span class="event-title">搭乘：<a href="#" class="event-link">大濠公園 → 博多站</a></span>
+                                </div>
                             </div>
-                          <!-- D方案行程 9 -->
-                        <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
-                            <div class="time-col">16:30</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    景點：<a href="https://maps.app.goo.gl/k3TAo26pcX8t4zdr9" target="_blank" class="event-link">壱岐神社 一の鳥居 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
+                            <div class="timeline-item" style="border-bottom: 1px dashed #d0d7d7; margin-bottom: 10px; padding-bottom: 10px;">
+                                <div class="time-col">16:30</div>
+                                <div class="event-col">
+                                    <span class="event-title">景點：<a href="#" class="event-link">壱岐神社 一の鳥居</a></span>
+                                </div>
                             </div>
+                            <div class="timeline-item" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+                                <div class="time-col">18:00</div>
+                                <div class="event-col">
+                                    <span class="event-title">搭乘：<a href="#" class="event-link">博多站 → 大濠公園</a></span>
+                                </div>
                             </div>
-                              <!-- D方案行程 10 -->
-                        <div class="timeline-item" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
-                            <div class="time-col">18:00</div>
-                            <div class="event-col">
-                                <span class="event-title">
-                                    搭乘筑肥線：<a href="https://maps.app.goo.gl/aikJpFTcBrtiptwc6" target="_blank" class="event-link">搭乘空港線：博多站 → 大濠公園 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
-                                </span>
-                                <div class="event-desc"><span class="transport-tag"><i class="fa-solid fa-bus"></i> 地下鐵</span></div>
-                                <span>
-                                 </div>
-                                 </div>
-                            </div>
-                            </div>
+                        </div>
+                    </details>
+
+                </div>
                 <!-- ================= 🌟 A / B / C / D 方案分歧點 結束 ================= -->
 
                 <!-- ================= 2. 共同行程 (下午匯合) ================= -->
-                <!-- 加上 border-top 畫一條實線，代表分支結束，大家又集合了 -->
-                <div class="timeline-item">
+                <div class="timeline-item" style="border-top: 1px solid #eee; padding-top: 15px;">
                     <div class="time-col">19:00</div>
                     <div class="event-col">
                         <span class="event-title">
                             晚餐：<a href="https://maps.app.goo.gl/o5UUQjnt7n1wPGJd6" target="_blank" class="event-link">博多水炊鍋専門 橙 <i class="fas fa-map-marker-alt" style="font-size:0.8em"></i></a>
                         </span>
                         <div class="event-desc">
-                            水炊鍋：水炊鍋¥4,150 + 雜炊¥350 + 唐揚炸雞¥160/塊</div>
-                         </div>
-                              </div>
-                               </div>
-                                                         </div>
+                            水炊鍋：水炊鍋¥4,150 + 雜炊¥350 + 唐揚炸雞¥160/塊
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ================= Day 3 ================= -->
         <div id="day3" class="page-section">
             <div class="card">
                 <h1>Day 3: 06/20 (六)</h1>
-                <p>福岡探索</p>
+                <p>福岡探索 🛍️</p>
             </div>
 
             <div class="card">
@@ -1122,6 +1167,16 @@
 
             <!-- === 分類 1: 伴手禮 === -->
             <div id="cat-food" class="shop-category-title"><i class="fas fa-cookie-bite"></i> 伴手禮 (範例)</div>
+
+            <div class="shop-item">
+                <img src="Okinawa2025_img/item4.jpg" alt="商品圖片" class="shop-img" onclick="openImage(this)">
+                <div class="shop-info">
+                    <div class="shop-name">商品名稱</div>
+                    <div class="shop-price">¥ 800</div>
+                    <div class="shop-loc">地點</div>
+                </div>
+                <input type="checkbox" class="shop-check" onchange="toggleBought(this)">
+            </div>
 
             <!-- === 分類 2: 生活雜貨 === -->
             <div id="cat-life" class="shop-category-title"><i class="fas fa-home"></i> 生活雜貨 (範例)</div>
